@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/* css/header.css */
+
+/* 헤더 컨테이너 스타일 */
+header {
+    background-color: #ffffff; /* 흰색 배경 */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08); /* 은은한 그림자 */
+    padding: 0 20px;
+    font-family: 'Malgun Gothic', 'Dotum', sans-serif; /* 한글 폰트 지정 */
+}
+
+/* 네비게이션 바 (Flexbox를 사용하여 가로 정렬) */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 요소들을 양 끝으로 분산 */
+    align-items: center; /* 수직 중앙 정렬 */
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    height: 60px; /* 고정 높이 */
+}
+
+/* 로고 스타일 */
+.logo a {
+    font-size: 1.6em;
+    font-weight: 800; /* 굵게 */
+    color: #3498db; /* 로고 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+/* 로그인 로고*/
+.logo2 {
+	text-align: center;
+	
+}
+.logo2 a {
+	
+    font-size: 3.2em;
+    font-weight: 800; /* 굵게 */
+    color: #3498db; /* 로고 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 메인 네비게이션 링크 목록 */
+.nav-links {
+    list-style: none; /* 점 제거 */
+    padding: 0;
+    margin: 0;
+    display: flex; /* 가로 정렬 */
+    gap: 30px; /* 메뉴 항목 사이의 간격 */
+}
+
+/* 개별 링크 스타일 */
+.nav-links li a {
+    text-decoration: none;
+    color: #555;
+    font-size: 1em;
+    padding: 10px 0;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+/* 마우스 올렸을 때 및 현재 활성화된 페이지 스타일 */
+.nav-links li a:hover,
+.nav-links li a.active {
+    color: #3498db; /* 강조 색상 */
+    border-bottom: 2px solid #3498db; /* 밑줄로 강조 */
+}
+
+/* 액션 (로그인 버튼) 컨테이너 */
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* 로그인 버튼 스타일 */
+.btn-login {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #2980b9; /* 호버 시 약간 어두운 색상 */
+}

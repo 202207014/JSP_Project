@@ -1,0 +1,35 @@
+@charset "UTF-8";
+/* css/footer.css */
+
+/* 푸터 전체 컨테이너 스타일 */
+footer {
+    background-color: #333; /* 어두운 배경색 */
+    color: #f4f4f4; /* 밝은 텍스트 색상 */
+    padding: 30px 20px; /* 상하좌우 패딩 축소 */
+    font-family: 'Malgun Gothic', 'Dotum', sans-serif;
+    text-align: center; /* 모든 텍스트를 중앙에 정렬 */
+}
+
+/* 내부 콘텐츠를 중앙으로 모으고 최대 너비를 설정 */
+.footer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 로고 및 기본 정보 스타일 */
+.site-branding {
+    /* 중앙 정렬이 footer에서 처리되었으므로 단순화 */
+}
+
+.footer-logo {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.company-name, .copyright {
+    font-size: 0.9em;
+    color: #bbb;
+    margin: 3px 0; /* 간격 축소 */
+}

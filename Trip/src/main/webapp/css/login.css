@@ -1,0 +1,57 @@
+@charset "UTF-8";
+        /* 간단한 로그인 폼 스타일 */
+        .login-container {
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .login-container label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #555;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px 8px;
+            margin-bottom: 8px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007ACC;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #005a99;
+        }
+        .login-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .login-footer a {
+            color: #007ACC;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        .login-footer a:hover {
+            text-decoration: underline;
+        }

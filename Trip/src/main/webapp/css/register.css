@@ -1,0 +1,59 @@
+@charset "UTF-8";
+        /* 회원가입 폼 스타일 (로그인 폼과 유사하게) */
+        .register-container { /* login-container와 구분 */
+            max-width: 450px; /* 로그인보다 조금 넓게 설정 */
+            margin: 60px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 28px;
+            color: #333;
+        }
+        .register-container label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+        }
+        .register-container input[type="text"],
+        .register-container input[type="password"],
+        .register-container input[type="email"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 15px; /* 입력 필드 사이 간격 */
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box; /* 패딩이 너비를 초과하지 않도록 */
+        }
+        .register-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007ACC; /* 가입 버튼은 다른 색상으로 구분 */
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .register-container button:hover {
+            background-color: #28a745;
+        }
+        .register-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .register-footer a {
+            color: #007ACC;
+            text-decoration: none;
+        }
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
