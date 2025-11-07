@@ -120,5 +120,50 @@
 @media (max-width: 768px) {
     .spot-card {
         width: 100%; /* 모바일에서는 꽉 채우기 */
+        overflow: hidden;
     }
 }
+/* css/destination.css (가장 아래에 추가) */
+
+/* --- 접기/펼치기 summary 버튼 스타일 --- */
+details summary {
+    display: block;
+    width: 80%;
+    max-width: 600px;
+    margin: 25px auto 0;
+    padding: 14px 0;
+    background-color: #eaf4fa; /* 아주 연한 파란색 */
+    color: #1a4b7a; /* 진한 파란색 텍스트 */
+    font-size: 1.1em;
+    font-weight: 600;
+    border: 2px solid #bcd4e6;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    list-style: none; /* 기본 삼각형 아이콘 제거 */
+    transition: all 0.25s ease;
+}
+
+details summary:hover {
+    background-color: #d8ecf7;
+    border-color: #8fc1e3;
+    transform: scale(1.02); /* 약간 확대되는 효과 */
+}
+
+details[open] summary::after {
+    content: " ▲ 접기";
+    font-size: 0.9em;
+    color: #1a4b7a;
+}
+
+details:not([open]) summary::after {
+    content: " ▼ 더보기";
+    font-size: 0.9em;
+    color: #1a4b7a;
+}
+
+/* 접힘 내용 간격 */
+details > div {
+    margin-top: 20px;
+}
+
