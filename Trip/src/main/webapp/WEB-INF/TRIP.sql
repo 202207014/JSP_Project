@@ -1,0 +1,5 @@
+CREATE TABLE Members(
+	ID VARCHAR(30) PRIMARY KEY,
+	PASSWD VARCHAR(20),
+    NAME varchar(10)
+)

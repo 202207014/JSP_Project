@@ -1,50 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
+<%@ page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>로그인 처리</title>
+</head>
+<body>
 <%
-    // 1. 사용자가 입력한 정보 받기
     request.setCharacterEncoding("UTF-8");
+
     String userid = request.getParameter("userid");
     String password = request.getParameter("password");
-    
-    // 2. 간단한 유효성 검사
-    if(userid == null || password == null || 
-       userid.trim().equals("") || password.trim().equals("")) {
-%>
-        <script>
-            alert("아이디와 비밀번호를 모두 입력해주세요.");
-            history.back();
-        </script>
-<%
-        return;
-    }
-    
-    // 3. 애플리케이션 스코프에서 사용자 정보 맵 가져오기
-    Map<String, Map<String, String>> userMap = (Map<String, Map<String, String>>)application.getAttribute("userMap");
-    boolean loginSuccess = false;
-    String userName = "";
-    
-    // 4. 로그인 검증
-    if(userMap != null && userMap.containsKey(userid)) {
-        Map<String, String> userInfo = userMap.get(userid);
-        if(userInfo.get("password").equals(password)) {
-            loginSuccess = true;
-            userName = userInfo.get("name");
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    String jdbcUrl = "jdbc:mysql://localhost:3306/trip?useSSL=false&serverTimezone=Asia/Seoul";
+    String dbUser = "root";
+    String dbPass = "1234";
+
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
+
+        String sql = "SELECT * FROM members WHERE id = ? AND passwd = ?";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, userid);
+        pstmt.setString(2, password);
+        rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            // ✅ 로그인 성공 시
+            out.println("<script>");
+            out.println("alert('로그인 성공! 환영합니다.');");
+            out.println("location.href='index.jsp';"); // 로그인 성공 후 이동할 페이지
+            out.println("</script>");
+        } else {
+            // ❌ 로그인 실패 시
+            out.println("<script>");
+            out.println("alert('아이디 또는 비밀번호가 올바르지 않습니다.');");
+            out.println("history.back();");
+            out.println("</script>");
         }
-    }
-    
-    if(loginSuccess) {
-        // 5. 로그인 성공시 세션에 사용자 정보 저장
-        session.setAttribute("userid", userid);
-        session.setAttribute("name", userName);
-        session.setMaxInactiveInterval(1800); // 세션 유지 시간 30분
-        response.sendRedirect("index.jsp");
-    } else {
-        // 6. 로그인 실패
-%>
-        <script>
-            alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-            history.back();
-        </script>
-<%
+    } catch (Exception e) {
+        e.printStackTrace();
+        out.println("<p style='color:red;'>오류 발생: " + e.getMessage() + "</p>");
+    } finally {
+        if (rs != null) try { rs.close(); } catch (Exception e) {}
+        if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
+        if (conn != null) try { conn.close(); } catch (Exception e) {}
     }
 %>
+</body>
+</html>
