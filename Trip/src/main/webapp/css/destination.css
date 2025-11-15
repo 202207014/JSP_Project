@@ -1,14 +1,14 @@
 @charset "UTF-8";
 /* css/destination.css */
 
-/* 상세 페이지 컨테이너 */
+/* --- 페이지 컨테이너 및 레이아웃 --- */
 .destination-page-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-/* 제목 섹션 */
+/* --- 제목 및 구분선 --- */
 .destination-hero {
     text-align: center;
     margin-bottom: 50px;
@@ -33,7 +33,7 @@
     margin: 20px auto;
 }
 
-/* 개별 명소 섹션 */
+/* --- 섹션 제목 --- */
 .spot-section {
     margin-bottom: 60px;
 }
@@ -47,17 +47,18 @@
     padding-left: 15px;
 }
 
-/* 명소 카드 그리드 */
+
+/* --- 명소 카드 그리드 --- */
 .spot-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: flex-start; /* 왼쪽 정렬 */
+    justify-content: flex-start;
 }
 
 /* 명소 개별 카드 */
 .spot-card {
-    width: calc(33.333% - 13.333px); /* 3개씩 나열 */
+    width: calc(33.333% - 13.333px);
     min-width: 250px;
     background-color: white;
     border-radius: 10px;
@@ -71,18 +72,21 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* 카드 이미지 컨테이너 */
 .spot-image {
     width: 100%;
-    height: 200px;
+    height: 200px; /* 고정 높이 */
     overflow: hidden;
 }
 
+/* 실제 이미지 */
 .spot-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* 이미지가 잘리더라도 영역을 꽉 채움 */
 }
 
+/* 카드 하단 정보 */
 .spot-info {
     padding: 15px;
     display: flex;
@@ -96,34 +100,34 @@
     color: #333;
 }
 
+
+/* --- 하트 버튼 스타일 (링크 및 텍스트 포함) --- */
+
+/* .like-link 또는 .like-btn (HTML 구조에 따라 사용) */
+/* 하트 이모지에 파란 밑줄이 생기는 문제를 완전히 해결 */
+.like-link, 
 .like-btn {
-    color: #e74c3c; /* 하트 색상 */
+    /* 하트 이모지를 링크로 사용 */
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.4em;
+    transition: color 0.2s ease, transform 0.2s ease;
+    
+    /* 🌟🌟🌟 밑줄 및 링크 스타일 제거 (가장 중요) 🌟🌟🌟 */
+    text-decoration: none !important; 
+    color: #e74c3c !important; /* 빨간색으로 강제 적용 */
+    padding: 2px; /* 클릭 영역 확보 */
+    display: inline-block; /* transform 적용을 위해 */
 }
 
-.view-all-btn {
-    display: block;
-    text-align: right;
-    margin-top: 15px;
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s;
+.like-link:hover,
+.like-btn:hover {
+    color: #ff6b6b !important;
+    transform: scale(1.2);
 }
 
-.view-all-btn:hover {
-    color: #2980b9;
-}
 
-/* 모바일 반응형 */
-@media (max-width: 768px) {
-    .spot-card {
-        width: 100%; /* 모바일에서는 꽉 채우기 */
-        overflow: hidden;
-    }
-}
-/* css/destination.css (가장 아래에 추가) */
+/* ⚠️ .heart a 관련 코드는 HTML 클래스 구조상 불필요하여 삭제합니다. */
+
 
 /* --- 접기/펼치기 summary 버튼 스타일 --- */
 details summary {
@@ -132,22 +136,22 @@ details summary {
     max-width: 600px;
     margin: 25px auto 0;
     padding: 14px 0;
-    background-color: #eaf4fa; /* 아주 연한 파란색 */
-    color: #1a4b7a; /* 진한 파란색 텍스트 */
+    background-color: #eaf4fa;
+    color: #1a4b7a;
     font-size: 1.1em;
     font-weight: 600;
     border: 2px solid #bcd4e6;
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
-    list-style: none; /* 기본 삼각형 아이콘 제거 */
+    list-style: none;
     transition: all 0.25s ease;
 }
 
 details summary:hover {
     background-color: #d8ecf7;
     border-color: #8fc1e3;
-    transform: scale(1.02); /* 약간 확대되는 효과 */
+    transform: scale(1.02);
 }
 
 details[open] summary::after {
@@ -167,3 +171,9 @@ details > div {
     margin-top: 20px;
 }
 
+/* --- 모바일 반응형 --- */
+@media (max-width: 768px) {
+    .spot-card {
+        width: 100%; /* 모바일에서는 꽉 채우기 */
+    }
+}

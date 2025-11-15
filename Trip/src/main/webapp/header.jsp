@@ -17,13 +17,13 @@
             <%
                 // 세션에서 userid 값을 가져옵니다.
                 // 로그인 시 loginProcess.jsp에서 session.setAttribute("userid", userid)를 했을 것입니다.
-                String name = (String) session.getAttribute("name");
-                
-                if (name != null && !name.isEmpty()) {
+                String userid = (String) session.getAttribute("userid");
+                String username =(String) session.getAttribute("username");
+                if (userid != null && !userid.isEmpty()) {
                     // 로그인 상태일 때 (userid가 세션에 있을 때)
             %>
                     <!-- 사용자 이름 표시 (선택 사항) -->
-                        <%=name %>님
+                        <%=username %>님
                     <!-- 로그아웃 버튼 -->
                     <a href="logout.jsp" class="btn-login"> 
                         로그아웃

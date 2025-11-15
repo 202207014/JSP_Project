@@ -17,7 +17,7 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    String jdbcUrl = "jdbc:mysql://localhost:3306/trip?useSSL=false&serverTimezone=Asia/Seoul";
+    String jdbcUrl = "jdbc:mysql://localhost:3306/trip";
     String dbUser = "root";
     String dbPass = "1234";
 
@@ -33,8 +33,12 @@
 
         if (rs.next()) {
             // ✅ 로그인 성공 시
+            HttpSession s = request.getSession(); //로그인 성공 시 세션 생성
+            s.setAttribute("userid", userid);
+            s.setAttribute("username", rs.getString("name"));
+            
             out.println("<script>");
-            out.println("alert('로그인 성공! 환영합니다.');");
+            out.println("alert('로그인 성공! 환영합니다, " + rs.getString("name") + "님.');");
             out.println("location.href='index.jsp';"); // 로그인 성공 후 이동할 페이지
             out.println("</script>");
         } else {
