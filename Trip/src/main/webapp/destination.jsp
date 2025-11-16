@@ -15,7 +15,13 @@ if ("jeju".equals(place)) {
 %>
 <jsp:include page="destination_seoul.jsp" />
 <%
-} else {
+}
+else if ("gangneung".equals(place)) {
+%>
+<jsp:include page="destination_gangneung.jsp" />
+<%
+}
+else {
 %>
 <h2>잘못된 접근입니다.</h2>
 <%
