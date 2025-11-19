@@ -10,7 +10,7 @@
 			<p>여행 코스를 추천해 드립니다.</p>
 		</div>
 		<div class="hero-actions">
-			<a href="MyTripMain.jsp" class="btn-secondary"> <!--mypage.jsp 이동-->
+			<a href="MyTripMain.jsp" class="btn-secondary"> <!--mytripmain.jsp 이동-->
 				나의 여행 바로가기
 			</a> <a href="recommand.jsp" class="btn-primary"> <!--(X)recommand.jsp 이동-->
 				추천 여행지 보기

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+//destination 이동 허브
 String place = request.getParameter("place");
 
 if ("jeju".equals(place)) {

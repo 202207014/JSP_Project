@@ -8,14 +8,16 @@
 </head>
 <body>
 <%
-request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8"); //request 인코딩 설정
 
 // 1. 파라미터 받기 및 변수 정의
-String userId = (String)session.getAttribute("userid"); // 세션 ID
-String favId = request.getParameter("id"); // destination.jsp에서 보낸 고유 ID (핵심)
-String placeName = request.getParameter("place");
-String placeType = request.getParameter("type");
-String placeImg = request.getParameter("img");
+String userId = (String)session.getAttribute("userid"); // 로그인된 사용자 ID
+
+//destination.jsp에서 보낸 고유 정보들을 받음
+String favId = request.getParameter("id"); //여행지 고유 ID
+String placeName = request.getParameter("place");// 장소 이름
+String placeType = request.getParameter("type"); // 장소 유형
+String placeImg = request.getParameter("img"); // 이미지 경로
 
 // 2. 로그인 및 필수 파라미터 체크
 if (userId == null) {
@@ -29,27 +31,26 @@ if (favId == null || placeName == null || placeType == null) {
 
 // 3. JDBC 정보 및 자원 선언
 String url = "jdbc:mysql://localhost:3306/trip" 
-                 + "?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+                 + "?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"; 
 String dbUser = "root";
 String dbPass = "1234";
-
+//JDBC 객체
 Connection conn = null;
 PreparedStatement pstmt = null;
 ResultSet rs = null;
 
 try {
-    Class.forName("com.mysql.cj.jdbc.Driver");
+    Class.forName("com.mysql.cj.jdbc.Driver"); //DB 연결
     conn = DriverManager.getConnection(url, dbUser, dbPass);
 
-    // ==========================================================
     // A. 중복 확인 (fav_id와 user_id 기반)
-    // ==========================================================
-    String checkSql = "SELECT fav_id FROM favorites WHERE user_id = ? AND fav_id = ?";
+    //해당 유저가 같은 장소를 선택했는지 확인
+    String checkSql = "SELECT fav_id FROM favorites WHERE user_id = ? AND fav_id = ?"; 
     pstmt = conn.prepareStatement(checkSql);
     pstmt.setString(1, userId);
     pstmt.setString(2, favId);
     rs = pstmt.executeQuery();
-
+	//이미 선택했다면 DELETE
     if (rs.next()) {
         //이미 찜한 장소 -> 삭제 (DELETE)로 토글 기능 구현
         String deleteSql = "DELETE FROM favorites WHERE user_id = ? AND fav_id = ?";
@@ -81,7 +82,7 @@ try {
         // 5. place_type
         pstmt.setString(5, placeType); 
         
-        pstmt.executeUpdate();
+        pstmt.executeUpdate();//insert 실행
 
         out.println("<script>alert('" + placeName + "이(가) 찜 목록에 추가되었습니다!'); history.back();</script>");
     }

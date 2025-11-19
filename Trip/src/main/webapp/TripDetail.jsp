@@ -1,196 +1,315 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
-<%@ include file="header.jsp" %>
-<link rel="stylesheet" href="css/mytrip.css">
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ include file="../header.jsp" %>
 
-<%
-    // --- 1. 로그인 체크 ---
-    String userId = (String) session.getAttribute("userid");
-    if (userId == null) {
-        out.print("<script>alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.'); location.href='login.jsp';</script>");
-        return;
-    }
+<style>
 
-    // --- 2. 쿼리 파라미터 가져오기 ---
-    request.setCharacterEncoding("UTF-8");
-    String tripName = request.getParameter("tripName");
-    String tripLocation = request.getParameter("tripLocation");
-    
-    if (tripName == null || tripLocation == null) {
-        out.print("<script>alert('잘못된 접근입니다. 나의여행 목록으로 이동합니다.'); location.href='MyTripMain.jsp';</script>");
-        return;
-    }
-    
-    // --- 3. 이미지 URL 결정 (더미) ---
-    // 실제 데이터가 없으므로 tripLocation에 따라 임시 이미지 결정
-    String locationLower = tripLocation.toLowerCase();
-    String defaultImage = "img/default_korea_bg.jpg"; // 기본 한국 배경 이미지
-    String imageUrl = "img/bg_" + locationLower.replace(" ", "_") + ".jpg";
+/* 일정 기능 CSS */
+.add-btn {
+  background: #4A90E2;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+}
 
-    // 이미지 파일이 없다고 가정하고 기본 이미지로 대체하는 로직 (실제 프로젝트에서는 DB에서 가져와야 함)
-    // 현재는 JSP에서 동적으로 CSS를 생성하기 위해 변수를 준비합니다.
-%>
+.schedule-list { margin-top: 20px; display:flex; flex-direction:column; gap:12px; }
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title><%= tripName %> 여행 상세 | Trip Planner</title>
-    
-    <!-- 동적인 배경 이미지 URL을 위해 <style> 태그 사용 -->
-    <style>
-        .detail-header {
-            /* JSP 스크립틀릿 변수를 사용하여 배경 이미지 URL을 동적으로 설정 */
-            background-image: url('<%= imageUrl %>'); 
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            color: white;
-            padding: 30px;
-            display: flex;
-            align-items: flex-end;
-        }
-        .detail-header h1 {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            font-size: 2.5em;
-        }
-    </style>
-</head>
-<body>
-    <main class="trip-container">
+.schedule-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  position: relative;
+}
 
-        <!-- 헤더 이미지 및 정보 -->
-        <div class="detail-header">
-            <div class="location-info" style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 5px;">
-                <h1><%= tripName %></h1>
-                <p style="margin: 5px 0 0 0;">📍 <%= tripLocation %></p>
-            </div>
-        </div>
+.schedule-card .delete-btn {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  border: none;
+  background: #ff5b5b;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-        <!-- 탭 메뉴 -->
-        <div class="detail-tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'list')">관심 리스트</button>
-            <button class="tab-btn" onclick="openTab(event, 'schedule')">여행 일정</button>
-            <button class="tab-btn" onclick="openTab(event, 'stay')">숙박 시설</button>
-            <button class="tab-btn" onclick="openTab(event, 'food')">맛집</button>
-            <button class="tab-btn" onclick="openTab(event, 'activity')">즐길 거리</button>
-        </div>
+/* 모달 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
 
-        <!-- 탭 콘텐츠 영역 -->
-        <div id="list" class="tab-content" style="display:block;">
-            <h2>관심 리스트</h2>
-            <p style="color:#777; margin-bottom: 20px;">여행 중 가보고 싶은 모든 장소를 저장해보세요.</p>
-            
-            <div class="item-card">
-                <div class="item-card-text">
-                    <h4>부산 해운대 해변 (명소)</h4>
-                    <p>⭐ 4.5점 / 해변 산책 및 사진 촬영</p>
-                </div>
-                <div class="item-card-actions">
-                    <button>지도에서 보기</button>
-                </div>
-            </div>
+.modal-content {
+  background: #fff;
+  padding: 18px;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
 
-            <div class="item-card">
-                <div class="item-card-text">
-                    <h4>감천 문화마을 (관광)</h4>
-                    <p>⭐ 4.7점 / 알록달록한 벽화 마을</p>
-                </div>
-                <div class="item-card-actions">
-                    <button>지도에서 보기</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="schedule" class="tab-content" style="display:none;">
-            <h2>여행 일정</h2>
-            <p>날짜별로 구체적인 일정을 계획합니다.</p>
-            <ul style="list-style: none; padding: 0;">
-                <li style="border-left: 3px solid #008000; padding-left: 10px; margin-bottom: 15px;">
-                    <strong>DAY 1:</strong> 오전 - KTX 부산역 도착 / 오후 - 해운대 숙소 체크인 및 해변 산책.
-                </li>
-                <li style="border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 15px;">
-                    <strong>DAY 2:</strong> 오전 - 감천 문화마을 관광 / 오후 - 자갈치 시장에서 해산물 만찬.
-                </li>
-            </ul>
-        </div>
-        
-        <div id="stay" class="tab-content" style="display:none;">
-            <h2>숙박 시설</h2>
-            <div class="item-card">
-                <div class="item-card-text">
-                    <h4>파크 하얏트 부산</h4>
-                    <p>⭐ 4.8점 / 해운대 오션뷰 럭셔리 호텔</p>
-                </div>
-                <div class="item-card-actions">
-                    <button>예약</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="food" class="tab-content" style="display:none;">
-            <h2>맛집</h2>
-            <div class="item-card">
-                <div class="item-card-text">
-                    <h4>원조 부산 돼지국밥</h4>
-                    <p>⭐ 4.5점 / 뜨끈한 국물이 일품</p>
-                </div>
-                <div class="item-card-actions">
-                    <button>리뷰 보기</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="activity" class="tab-content" style="display:none;">
-            <h2>즐길 거리</h2>
-            <div class="item-card">
-                <div class="item-card-text">
-                    <h4>태종대 다누비 열차</h4>
-                    <p>⭐ 4.6점 / 태종대 순환 관광</p>
-                </div>
-                <div class="item-card-actions">
-                    <button>정보 확인</button>
-                </div>
-            </div>
-        </div>
-    </main>
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
 
-    <script>
-        // 탭 전환 JavaScript
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-            
-            // 모든 탭 콘텐츠 숨기기
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            
-            // 모든 탭 버튼에서 active 클래스 제거
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            
-            // 현재 탭 콘텐츠 표시 및 버튼에 active 클래스 추가
-            document.getElementById(tabName).style.display = "block";
-            // evt.currentTarget이 null인 경우를 방지 (JS 오류 방지)
-            if (evt.currentTarget) {
-                evt.currentTarget.className += " active";
-            }
-        }
-        
-        // 페이지 로드 시 '관심 리스트' 탭을 활성화 (첫 번째 탭)
-        document.addEventListener('DOMContentLoaded', () => {
-             // 페이지 로드 시 첫 번째 탭 버튼에 active 클래스 추가
-             const firstTabButton = document.querySelector('.detail-tabs .tab-btn');
-             if (firstTabButton) {
-                 firstTabButton.className += " active";
-             }
-        });
-    </script>
-    
-    <%@ include file="footer.jsp" %>
-</body>
-</html>
+.modal-btns { display:flex; gap:8px; margin-top:12px; }
+.modal-btns button { flex:1; padding:8px 10px; border-radius:6px; border:none; cursor:pointer; }
+.modal-btns .save { background:#2d8cff; color:#fff; }
+.modal-btns .cancel { background:#eee; }
+
+/* 상세 정보 CSS */
+.detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: sans-serif;
+}
+
+.detail-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.detail-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.detail-info {
+    padding: 20px;
+}
+
+.detail-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.detail-location {
+    font-size: 16px;
+    color: #555;
+}
+
+.detail-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 12px;
+}
+
+.detail-buttons a {
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.memo-box {
+    margin-top: 30px;
+}
+
+.memo-box textarea {
+    width: 100%;
+    height: 140px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: none;
+    font-size: 15px;
+}
+
+</style>
+
+<main class="detail-container">
+
+  <h1 style="margin-bottom:20px;">여행 상세 정보</h1>
+
+  <div id="detailContent"></div>
+
+</main>
+
+<!-- 일정 영역 -->
+<div id="scheduleArea" style="max-width:900px; margin:20px auto; padding:0 16px;">
+  
+  <h2 style="margin:20px 0 10px 0;">🗓 일정</h2>
+
+  <button id="openScheduleModal" class="add-btn">＋ 일정 추가</button>
+
+  <div id="scheduleList" class="schedule-list"></div>
+</div>
+
+<!-- 일정 추가 모달 -->
+<div id="scheduleModal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true">
+    <h3 style="margin:0 0 10px 0;">일정 추가</h3>
+
+    <label>날짜</label>
+    <input type="date" id="scheduleDate">
+
+    <label>시간</label>
+    <input type="time" id="scheduleTime">
+
+    <label>장소</label>
+    <input type="text" id="schedulePlace" placeholder="장소 입력">
+
+    <label>메모</label>
+    <textarea id="scheduleMemo" placeholder="메모 입력" rows="4"></textarea>
+
+    <div class="modal-btns">
+      <button id="saveScheduleBtn" class="save">저장</button>
+      <button id="closeScheduleModal" class="cancel">취소</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================
+   여행 상세 정보 표시
+================================ */
+
+const trips = JSON.parse(localStorage.getItem("myTrips") || "[]");
+const selectedId = localStorage.getItem("selectedTripId");
+const trip = trips.find(t => t.id == selectedId);
+
+if (!trip) {
+    document.getElementById("detailContent").innerHTML =
+        "<p>선택된 여행 정보를 찾을 수 없습니다.</p>";
+} else {
+    const encodedLoc = encodeURIComponent(trip.location);
+
+    document.getElementById("detailContent").innerHTML = `
+      <div class="detail-card">
+          <img src="\${trip.image}" class="detail-img">
+
+          <div class="detail-info">
+              <h2 class="detail-title">\${trip.name}</h2>
+              <p class="detail-location">\${trip.location}</p>
+
+              <div class="detail-buttons">
+                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20숙박" target="_blank">숙박</a>
+                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20즐길거리" target="_blank">즐길거리</a>
+                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20맛집" target="_blank">맛집</a>
+              </div>
+
+              <div class="memo-box">
+                <h3>메모</h3>
+                <textarea id="memo">\${trip.memo || ""}</textarea>
+                <button style="margin-top:10px; padding:10px 16px; background:#444; color:white; border:none; border-radius:6px; cursor:pointer;"
+                        onclick="saveMemo(\${trip.id})">메모 저장</button>
+              </div>
+
+          </div>
+      </div>
+    `;
+}
+
+function saveMemo(id) {
+    const memoText = document.getElementById("memo").value;
+    const updated = trips.map(t => t.id == id ? { ...t, memo: memoText } : t);
+    localStorage.setItem("myTrips", JSON.stringify(updated));
+    alert("메모가 저장되었습니다!");
+}
+
+/* ================================
+   일정 기능
+================================ */
+
+const scheduleKey = "trip_schedule_" + selectedId;
+let schedules = JSON.parse(localStorage.getItem(scheduleKey) || "[]");
+
+const modal = document.getElementById("scheduleModal");
+const openModalBtn = document.getElementById("openScheduleModal");
+const closeModalBtn = document.getElementById("closeScheduleModal");
+const saveBtn = document.getElementById("saveScheduleBtn");
+const scheduleListEl = document.getElementById("scheduleList");
+
+function renderSchedules() {
+  scheduleListEl.innerHTML = "";
+
+  if (schedules.length === 0) {
+    scheduleListEl.innerHTML =
+      '<p style="color:#777; text-align:center; padding:18px;">등록된 일정이 없습니다.</p>';
+    return;
+  }
+
+  schedules.sort((a, b) => (a.date + a.time > b.date + b.time ? 1 : -1));
+
+  schedules.forEach(s => {
+    const div = document.createElement("div");
+    div.className = "schedule-card";
+
+    div.innerHTML = `
+      <strong>\${s.date} \${s.time}</strong>
+      <div style="margin-top:6px;">📍 \${s.place}</div>
+      <p style="margin:8px 0 0 0; color:#444;">\${s.memo}</p>
+      <button class="delete-btn" data-id="\${s.id}">삭제</button>
+    `;
+
+    scheduleListEl.appendChild(div);
+  });
+
+  // 삭제 기능
+  scheduleListEl.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const id = Number(this.dataset.id);
+      schedules = schedules.filter(s => s.id !== id);
+      localStorage.setItem(scheduleKey, JSON.stringify(schedules));
+      renderSchedules();
+    });
+  });
+}
+
+openModalBtn.addEventListener("click", () => {
+  modal.style.display = "flex";
+});
+
+closeModalBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+saveBtn.addEventListener("click", () => {
+  const date = document.getElementById("scheduleDate").value;
+  const time = document.getElementById("scheduleTime").value;
+  const place = document.getElementById("schedulePlace").value;
+  const memo = document.getElementById("scheduleMemo").value;
+
+  if (!date || !time || !place) {
+    alert("날짜, 시간, 장소는 필수 입력입니다.");
+    return;
+  }
+
+  schedules.push({
+    id: Date.now(),
+    date, time, place, memo
+  });
+
+  localStorage.setItem(scheduleKey, JSON.stringify(schedules));
+  modal.style.display = "none";
+  renderSchedules();
+});
+
+// 첫 로딩 시 일정 출력
+renderSchedules();
+
+
+</script>
+
+<%@ include file="../footer.jsp" %>
