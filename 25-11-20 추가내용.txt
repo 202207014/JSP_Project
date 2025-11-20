@@ -1,0 +1,27 @@
+#WEB_INF/sql에 수정된 favorites.sql place.sql 있습니다
+#기존 favorites 테이블 삭제하고 새롭게 favorites 테이블 생성하시면 되고 place.sql은 insert 문까지 다 적용하셔야 합니다.
+여행지 정보 place 테이블 생성
+ ㄴ> 현재 destination 페이지에 있는 모든 장소들 정보가 들어가 있는 DB 생성(이유 : map api 사용 시 여행지 정보가 필요할 때 쓰기 위해)
+	ㄴ> 테이블에는  여행지의 이름, 주소 정보 등이 들어가 있음
+
+favorites 테이블 구조 수정
+ ㄴ> dsetination 페이지 수정
+	ㄴ> 하트 이모지를 누를 때 addFavorite.jsp에 넘어가는 값들 (장소 고유 아이디, 장소명) 제외하고 제거
+ ㄴ> addfavorite 페이지 수정
+	ㄴ> favorites 테이블 구조 수정으로 db에 저장되는 값들이 변경되어 테이블 구조에 맞게 값이 들어가도록 코드 수정
+
+MyTripMain에 <!-- DB 찜 목록 보기--> 부분 수정
+ ㄴ> favorites + places 테이블을 join 하여 최근 3개 항목 검색하도록 수정
+
+
+course 페이지 제작
+1. course_main.jsp 
+ ㄴ> 허브 역할
+2. course_seoul(jeju....).jsp
+ ㄴ> 1. 장소 정보를 담을 클래스를 정의 -> 리스트 객체 생성
+	2. DB를 연결해서 장소의 이름과 타입을 가져옴
+	ex) SELECT place_name, place_type FROM places WHERE place_id LIKE 'gangneung_%
+	3. jsp에서 리스트 객체를 사용할 수 있도록 리스트 객체를 문자열로 변환
+	4. 코스별 배열 선언(당일치기, 1박2일, 2박 3일) ai로 배열 생성해서 코스 순서가 이상할 수 있음
+	5. 카카오 지도 검색 api로 장소에 좌표를 얻어내어 마커를 생성함
+	6. 마우스 마커에 올려놓을 시 장소의 장소명 과 몇번째 코스인지를 보여줌
