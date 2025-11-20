@@ -8,7 +8,7 @@
         </div>
         
         <ul class="nav-links">
-            <li><a href="recommand.jsp" class="nav-item active">추천</a></li>
+            <li><a href="course_main.jsp" class="nav-item active">추천</a></li>
             <li><a href="MyTripMain.jsp" class="nav-item">내 여행</a></li>
             <li><a href="communite.jsp" class="nav-item">커뮤니티</a></li>
         </ul>

@@ -12,8 +12,8 @@
 		<div class="hero-actions">
 			<a href="MyTripMain.jsp" class="btn-secondary"> <!--mytripmain.jsp 이동-->
 				나의 여행 바로가기
-			</a> <a href="recommand.jsp" class="btn-primary"> <!--(X)recommand.jsp 이동-->
-				추천 여행지 보기
+			</a> <a href="course_main.jsp" class="btn-primary"> <!--course_main.jsp 이동-->
+				추천 여행지 코스 보기
 			</a>
 		</div>
 	</div>

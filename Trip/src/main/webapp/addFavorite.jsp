@@ -9,22 +9,16 @@
 <body>
 <%
 request.setCharacterEncoding("UTF-8"); //request 인코딩 설정
-
-// 1. 파라미터 받기 및 변수 정의
 String userId = (String)session.getAttribute("userid"); // 로그인된 사용자 ID
-
-//destination.jsp에서 보낸 고유 정보들을 받음
-String favId = request.getParameter("id"); //여행지 고유 ID
-String placeName = request.getParameter("place");// 장소 이름
-String placeType = request.getParameter("type"); // 장소 유형
-String placeImg = request.getParameter("img"); // 이미지 경로
-
 // 2. 로그인 및 필수 파라미터 체크
 if (userId == null) {
     out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp';</script>");
     return;
 }
-if (favId == null || placeName == null || placeType == null) {
+//destination.jsp 에서 넘어온 값 
+String placeId = request.getParameter("id");  // 여행지 고유 ID 저장될 값
+String placeName = request.getParameter("place"); // 장소명(알림용) 
+if (placeId == null || placeName == null || placeId.trim().equals("")) {
     out.println("<script>alert('필수 정보가 누락되었습니다.'); history.back();</script>");
     return;
 }
@@ -45,19 +39,19 @@ try {
 
     // A. 중복 확인 (fav_id와 user_id 기반)
     //해당 유저가 같은 장소를 선택했는지 확인
-    String checkSql = "SELECT fav_id FROM favorites WHERE user_id = ? AND fav_id = ?"; 
+    String checkSql = "SELECT fav_id FROM favorites WHERE user_id = ? AND place_id = ?"; 
     pstmt = conn.prepareStatement(checkSql);
     pstmt.setString(1, userId);
-    pstmt.setString(2, favId);
+    pstmt.setString(2, placeId);
     rs = pstmt.executeQuery();
 	//이미 선택했다면 DELETE
     if (rs.next()) {
         //이미 찜한 장소 -> 삭제 (DELETE)로 토글 기능 구현
-        String deleteSql = "DELETE FROM favorites WHERE user_id = ? AND fav_id = ?";
+        String deleteSql = "DELETE FROM favorites WHERE user_id = ? AND place_id = ?";
         pstmt.close(); // 기존 pstmt 닫기
         pstmt = conn.prepareStatement(deleteSql);
         pstmt.setString(1, userId);
-        pstmt.setString(2, favId);
+        pstmt.setString(2, placeId);
         pstmt.executeUpdate();
         
         out.println("<script>alert('" + placeName + "을(를) 찜 목록에서 제거했습니다.'); history.back();</script>");
@@ -66,22 +60,16 @@ try {
         //찜 추가 (INSERT)
         //DB 스키마: fav_id, user_id, place_name, place_img, place_type
         //SQL 수정: 파라미터 개수(5개) 및 순서 수정
-        String insertSql = "INSERT INTO favorites (fav_id, user_id, place_name, place_img, place_type) VALUES (?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO favorites (user_id, place_id) VALUES (?, ?)";
         
         pstmt.close(); // 기존 pstmt 닫기
         pstmt = conn.prepareStatement(insertSql);
         
-        // 1. fav_id
-        pstmt.setString(1, favId); 
-        // 2. user_id
-        pstmt.setString(2, userId); 
-        // 3. place_name
-        pstmt.setString(3, placeName); 
-        // 4. place_img
-        pstmt.setString(4, placeImg); 
-        // 5. place_type
-        pstmt.setString(5, placeType); 
-        
+        // 1. userId
+        pstmt.setString(1, userId); 
+        // 2. placeId
+        pstmt.setString(2, placeId); 
+      
         pstmt.executeUpdate();//insert 실행
 
         out.println("<script>alert('" + placeName + "이(가) 찜 목록에 추가되었습니다!'); history.back();</script>");

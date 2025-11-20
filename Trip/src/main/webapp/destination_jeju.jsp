@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -38,7 +37,7 @@
 					<div class="spot-info">
 						<h3>성산 일출봉</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_place_1&place=성산 일출봉&type=명소&img=img/jeju/place/ilchulbong.jpg"
+							href="addFavorite.jsp?id=jeju_place_1&place=성산 일출봉"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -52,7 +51,7 @@
 					<div class="spot-info">
 						<h3>한라산 국립공원</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_place_2&place=한라산 국립공원&type=명소&img=img/jeju/place/hallasan.jpg"
+							href="addFavorite.jsp?id=jeju_place_2&place=한라산 국립공원"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -66,7 +65,7 @@
 					<div class="spot-info">
 						<h3>대포해안 주상절리대</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_place_3&place=대포해안 주상절리대&type=명소&img=img/jeju/place/jusangjeolli.jpg"
+							href="addFavorite.jsp?id=jeju_place_3&place=대포해안 주상절리대"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -84,7 +83,7 @@
 						<div class="spot-info">
 							<h3>한담해안 산책로</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_4&place=한담해안 산책로&type=산책로&img=img/jeju/place/handam.jpg"
+								href="addFavorite.jsp?id=jeju_place_4&place=한담해안 산책로"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -97,7 +96,7 @@
 						<div class="spot-info">
 							<h3>신창 풍차해안도로</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_5&place=신창 풍차해안도로&type=산책로&img=img/jeju/place/sinchang.jpg"
+								href="addFavorite.jsp?id=jeju_place_5&place=신창 풍차해안도로"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -110,7 +109,7 @@
 						<div class="spot-info">
 							<h3>별도봉 산책로</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_6&place=별도봉 산책로&type=산책로&img=img/jeju/place/buldobong.jpg"
+								href="addFavorite.jsp?id=jeju_place_6&place=별도봉 산책로"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -127,7 +126,7 @@
 						<div class="spot-info">
 							<h3>에코랜드 테마파크</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_7&place=에코랜드 테마파크&type=테마파크&img=img/jeju/place/ecoland.jpg"
+								href="addFavorite.jsp?id=jeju_place_7&place=에코랜드 테마파크"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -140,7 +139,7 @@
 						<div class="spot-info">
 							<h3>제주김녕미로공원</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_8&place=제주김녕미로공원&type=테마파크&img=img/jeju/place/gimnyeong.jpg"
+								href="addFavorite.jsp?id=jeju_place_8&place=제주김녕미로공원"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -153,7 +152,7 @@
 						<div class="spot-info">
 							<h3>더마파크</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_place_9&place=더마파크&type=테마파크&img=img/jeju/place/dermapark.jpg"
+								href="addFavorite.jsp?id=jeju_place_9&place=더마파크"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -174,7 +173,7 @@
 					<div class="spot-info">
 						<h3>제주 신라 호텔</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_stay_1&place=제주 신라 호텔&type=숙박&img=img/jeju/stay/shillajeju.jpg"
+							href="addFavorite.jsp?id=jeju_stay_1&place=제주 신라 호텔"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -187,7 +186,7 @@
 					<div class="spot-info">
 						<h3>그랜드 조선 제주</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_stay_2&place=그랜드 조선 제주&type=숙박&img=img/jeju/stay/grandjosun.jpg"
+							href="addFavorite.jsp?id=jeju_stay_2&place=그랜드 조선 제주"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -200,7 +199,7 @@
 					<div class="spot-info">
 						<h3>롯데 호텔 제주</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_stay_3&place=롯데 호텔 제주&type=숙박&img=img/jeju/stay/lottehotel.jpg"
+							href="addFavorite.jsp?id=jeju_stay_3&place=롯데 호텔 제주"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -219,7 +218,7 @@
 						<div class="spot-info">
 							<h3>제이앤클로이</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_stay_4&place=제이앤클로이&type=숙박&img=img/jeju/stay/jcloye.jpg"
+								href="addFavorite.jsp?id=jeju_stay_4&place=제이앤클로이"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -232,7 +231,7 @@
 						<div class="spot-info">
 							<h3>홍스랜드</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_stay_5&place=홍스랜드&type=숙박&img=img/jeju/stay/hongsland.jpg"
+								href="addFavorite.jsp?id=jeju_stay_5&place=홍스랜드"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -245,7 +244,7 @@
 						<div class="spot-info">
 							<h3>더비비스 제주</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_stay_6&place=더비비스 제주&type=숙박&img=img/jeju/stay/thebbs.jpg"
+								href="addFavorite.jsp?id=jeju_stay_6&place=더비비스 제주"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -265,7 +264,7 @@
 					<div class="spot-info">
 						<h3>돌담 흑돼지</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_food_1&place=돌담 흑돼지&type=음식&img=img/jeju/food/doldam.jpg"
+							href="addFavorite.jsp?id=jeju_food_1&place=돌담 흑돼지"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -278,7 +277,7 @@
 					<div class="spot-info">
 						<h3>갈치 바다 애월</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_food_2&place=갈치 바다 애월&type=음식&img=img/jeju/food/galchibada.jpg"
+							href="addFavorite.jsp?id=jeju_food_2&place=갈치 바다 애월"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -291,7 +290,7 @@
 					<div class="spot-info">
 						<h3>수선화 식당</h3>
 						<a
-							href="addFavorite.jsp?id=jeju_food_3&place=수선화 식당&type=음식&img=img/jeju/food/susunhwa.jpg"
+							href="addFavorite.jsp?id=jeju_food_3&place=수선화 식당"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -309,7 +308,7 @@
 						<div class="spot-info">
 							<h3>봄날</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_food_4&place=봄날&type=음식&img=img/jeju/food/bomnal.jpg"
+								href="addFavorite.jsp?id=jeju_food_4&place=봄날"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -322,7 +321,7 @@
 						<div class="spot-info">
 							<h3>덤불</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_food_5&place=덤불&type=음식&img=img/jeju/food/dumbul.jpg"
+								href="addFavorite.jsp?id=jeju_food_5&place=덤불"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -335,7 +334,7 @@
 						<div class="spot-info">
 							<h3>델문도</h3>
 							<a
-								href="addFavorite.jsp?id=jeju_food_6&place=델문도&type=음식&img=img/jeju/food/delmundo.jpg"
+								href="addFavorite.jsp?id=jeju_food_6&place=델문도"
 								class="like-link">❤️</a>
 						</div>
 					</div>

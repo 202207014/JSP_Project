@@ -35,7 +35,7 @@
 					<div class="spot-info">
 						<h3>경복궁</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_place_1&place=경복궁&type=명소&img=img/seoul/place/gyeongbokgung.jpg"
+							href="addFavorite.jsp?id=seoul_place_1&place=경복궁"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -48,7 +48,7 @@
 					<div class="spot-info">
 						<h3>북촌 한옥마을</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_place_2&place=북촌 한옥마을&type=명소&img=img/seoul/place/bukchon.jpg"
+							href="addFavorite.jsp?id=seoul_place_2&place=북촌 한옥마을"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 					<div class="spot-info">
 						<h3>창덕궁</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_place_3&place=창덕궁&type=명소&img=img/seoul/place/changdeokgung.jpg"
+							href="addFavorite.jsp?id=seoul_place_3&place=창덕궁"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 						<div class="spot-info">
 							<h3>롯데월드</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_4&place=롯데월드&type=명소&img=img/seoul/place/lotteworld.jpg"
+								href="addFavorite.jsp?id=seoul_place_4&place=롯데월드"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 						<div class="spot-info">
 							<h3>N서울타워</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_5&place=N서울타워&type=명소&img=img/seoul/place/nseoultower.jpg"
+								href="addFavorite.jsp?id=seoul_place_5&place=N서울타워"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -105,7 +105,7 @@
 						<div class="spot-info">
 							<h3>스타필드 코엑스몰</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_6&place=스타필드 코엑스몰&type=명소&img=img/seoul/place/coex.jpg"
+								href="addFavorite.jsp?id=seoul_place_6&place=스타필드 코엑스몰"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -118,7 +118,7 @@
 						<div class="spot-info">
 							<h3>서울숲공원</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_7&place=서울숲공원&type=명소&img=img/seoul/place/seoulforest.jpg"
+								href="addFavorite.jsp?id=seoul_place_7&place=서울숲공원"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -131,7 +131,7 @@
 						<div class="spot-info">
 							<h3>동대문디자인플라자</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_8&place=동대문디자인플라자&type=명소&img=img/seoul/place/ddp.jpg"
+								href="addFavorite.jsp?id=seoul_place_8&place=동대문디자인플라자"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -144,7 +144,7 @@
 						<div class="spot-info">
 							<h3>광장시장</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_place_9&place=광장시장&type=명소&img=img/seoul/place/gwangjang.jpg"
+								href="addFavorite.jsp?id=seoul_place_9&place=광장시장"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -164,7 +164,7 @@
 					<div class="spot-info">
 						<h3>롯데 호텔 월드</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_stay_1&place=롯데 호텔 월드&type=숙박&img=img/seoul/stay/lotteworldhotel.jpg"
+							href="addFavorite.jsp?id=seoul_stay_1&place=롯데 호텔 월드"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -177,7 +177,7 @@
 					<div class="spot-info">
 						<h3>시그니엘 서울</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_stay_2&place=시그니엘 서울&type=숙박&img=img/seoul/stay/signoneseoul.jpg"
+							href="addFavorite.jsp?id=seoul_stay_2&place=시그니엘 서울"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -190,7 +190,7 @@
 					<div class="spot-info">
 						<h3>그랜드 하얏트 서울</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_stay_3&place=그랜드 하얏트 서울&type=숙박&img=img/seoul/stay/grandhyatt.jpg"
+							href="addFavorite.jsp?id=seoul_stay_3&place=그랜드 하얏트 서울"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -208,7 +208,7 @@
 						<div class="spot-info">
 							<h3>서울신라호텔</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_stay_4&place=서울신라호텔&type=숙박&img=img/seoul/stay/shilla.jpg"
+								href="addFavorite.jsp?id=seoul_stay_4&place=서울신라호텔"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -221,7 +221,7 @@
 						<div class="spot-info">
 							<h3>글래드 여의도</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_stay_5&place=글래드 여의도&type=숙박&img=img/seoul/stay/glad.jpg"
+								href="addFavorite.jsp?id=seoul_stay_5&place=글래드 여의도"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -234,7 +234,7 @@
 						<div class="spot-info">
 							<h3>그랜드 워커힐 서울</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_stay_6&place=그랜드 워커힐 서울&type=숙박&img=img/seoul/stay/grandwalkerhill.jpg"
+								href="addFavorite.jsp?id=seoul_stay_6&place=그랜드 워커힐 서울"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -254,7 +254,7 @@
 					<div class="spot-info">
 						<h3>래빗캐슬 잠실</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_food_1&place=래빗캐슬 잠실&type=음식&img=img/seoul/food/rabbitcastle.jpg"
+							href="addFavorite.jsp?id=seoul_food_1&place=래빗캐슬 잠실"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -267,7 +267,7 @@
 					<div class="spot-info">
 						<h3>해방촌 브런치 헤미안</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_food_2&place=해방촌 브런치 헤미안&type=음식&img=img/seoul/food/haebangchon.jpg"
+							href="addFavorite.jsp?id=seoul_food_2&place=해방촌 브런치 헤미안"
 							class="like-link">❤️</a>
 					</div>
 				</div>
@@ -280,9 +280,9 @@
 					<div class="spot-info">
 						<h3>모도우 광화문점</h3>
 						<a
-							href="addFavorite.jsp?id=seoul_food_3&place=모도우 광화문점&type=음식&img=img/seoul/food/modow.jpg"
+							href="addFavorite.jsp?id=seoul_food_3&place=모도우 광화문점"
 							class="like-link">❤️</a>
-					</div>
+						</div>
 				</div>
 			</div>
 
@@ -298,7 +298,7 @@
 						<div class="spot-info">
 							<h3>밍글스</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_food_4&place=밍글스&type=음식&img=img/seoul/food/mingles.jpg"
+								href="addFavorite.jsp?id=seoul_food_4&place=밍글스"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -311,7 +311,7 @@
 						<div class="spot-info">
 							<h3>권숙수</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_food_5&place=권숙수&type=음식&img=img/seoul/food/kwonsooksoo.jpg"
+								href="addFavorite.jsp?id=seoul_food_5&place=권숙수"
 								class="like-link">❤️</a>
 						</div>
 					</div>
@@ -324,7 +324,7 @@
 						<div class="spot-info">
 							<h3>레스토랑 알렌</h3>
 							<a
-								href="addFavorite.jsp?id=seoul_food_6&place=레스토랑 알렌&type=음식&img=img/seoul/food/allen.jpg"
+								href="addFavorite.jsp?id=seoul_food_6&place=레스토랑 알렌"
 								class="like-link">❤️</a>
 						</div>
 					</div>

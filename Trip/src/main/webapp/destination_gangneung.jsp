@@ -36,7 +36,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>안목해변</h3>
-                    <a href="addFavorite.jsp?id=gangneung_place_7&place=안목해변&type=해변&img=img/gangneung/place/anmok.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_place_7&place=안목해변" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>강문 해변</h3>
-                    <a href="addFavorite.jsp?id=gangneung_place_8&place=강문 해변&type=해변&img=img/gangneung/place/gangmun.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_place_8&place=강문 해변" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>주문진해수욕장</h3>
-                    <a href="addFavorite.jsp?id=gangneung_place_9&place=주문진해수욕장&type=해수욕장&img=img/gangneung/place/jumunjin.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_place_9&place=주문진해수욕장" class="like-link">❤️</a>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>강릉 선교장</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_1&place=강릉 선교장&type=문화&img=img/gangneung/place/seongyojang.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_1&place=강릉 선교장" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>구룡폭포</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_2&place=구룡폭포&type=자연&img=img/gangneung/place/guryong.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_2&place=구룡폭포" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>아르떼뮤지엄 강릉</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_3&place=아르떼뮤지엄 강릉&type=전시관&img=img/gangneung/place/arte.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_3&place=아르떼뮤지엄 강릉" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>강릉 장덕리 은행나무</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_4&place=강릉 장덕리 은행나무&type=명소&img=img/gangneung/place/ginkgo.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_4&place=강릉 장덕리 은행나무" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>아들바위공원</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_5&place=아들바위공원&type=공원&img=img/gangneung/place/adeulbawi.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_5&place=아들바위공원" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>중앙시장</h3>
-                        <a href="addFavorite.jsp?id=gangneung_place_6&place=중앙시장&type=시장&img=img/gangneung/place/market.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_place_6&place=중앙시장" class="like-link">❤️</a>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>세인트존스 호텔</h3>
-                    <a href="addFavorite.jsp?id=gangneung_stay_1&place=세인트존스 호텔&type=호텔&img=img/gangneung/stay/stjohns.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_stay_1&place=세인트존스 호텔" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -172,7 +172,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>신라모노그램 강릉</h3>
-                    <a href="addFavorite.jsp?id=gangneung_stay_2&place=신라모노그램 강릉&type=호텔&img=img/gangneung/stay/monogram.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_stay_2&place=신라모노그램 강릉" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -184,7 +184,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>스카이베이 경포</h3>
-                    <a href="addFavorite.jsp?id=gangneung_stay_3&place=스카이베이 경포&type=호텔&img=img/gangneung/stay/skybay.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_stay_3&place=스카이베이 경포" class="like-link">❤️</a>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>하이영진펜션</h3>
-                        <a href="addFavorite.jsp?id=gangneung_stay_4&place=하이영진펜션&type=펜션&img=img/gangneung/stay/hiyoungjin.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_stay_4&place=하이영진펜션" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -215,7 +215,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>강릉비치힐펜션</h3>
-                        <a href="addFavorite.jsp?id=gangneung_stay_5&place=강릉비치힐펜션&type=펜션&img=img/gangneung/stay/beachhill.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_stay_5&place=강릉비치힐펜션" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -227,7 +227,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>휴심</h3>
-                        <a href="addFavorite.jsp?id=gangneung_stay_6&place=휴심&type=펜션&img=img/gangneung/stay/hyusim.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_stay_6&place=휴심" class="like-link">❤️</a>
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>주문활게</h3>
-                    <a href="addFavorite.jsp?id=gangneung_food_1&place=주문활게&type=음식&img=img/gangneung/food/jumunhwalge.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_food_1&place=주문활게" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -259,7 +259,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>피쉬맨대게횟집</h3>
-                    <a href="addFavorite.jsp?id=gangneung_food_2&place=피쉬맨대게횟집&type=음식&img=img/gangneung/food/fishman.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_food_2&place=피쉬맨대게횟집" class="like-link">❤️</a>
                 </div>
             </div>
 
@@ -271,7 +271,7 @@
                 </div>
                 <div class="spot-info">
                     <h3>브라보칼국수</h3>
-                    <a href="addFavorite.jsp?id=gangneung_food_3&place=브라보칼국수&type=음식&img=img/gangneung/food/bravokalguksu.jpg" class="like-link">❤️</a>
+                    <a href="addFavorite.jsp?id=gangneung_food_3&place=브라보칼국수" class="like-link">❤️</a>
                 </div>
             </div>
         </div>
@@ -288,7 +288,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>보사노바 커피로스터스</h3>
-                        <a href="addFavorite.jsp?id=gangneung_food_4&place=보사노바 커피로스터스&type=카페&img=img/gangneung/food/bossanova.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_food_4&place=보사노바 커피로스터스" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -300,7 +300,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>인솔트베이커리</h3>
-                        <a href="addFavorite.jsp?id=gangneung_food_5&place=인솔트베이커리&type=카페&img=img/gangneung/food/insalt.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_food_5&place=인솔트베이커리" class="like-link">❤️</a>
                     </div>
                 </div>
 
@@ -312,7 +312,7 @@
                     </div>
                     <div class="spot-info">
                         <h3>카페제니엘</h3>
-                        <a href="addFavorite.jsp?id=gangneung_food_6&place=카페제니엘&type=카페&img=img/gangneung/food/cafejeniel.jpg" class="like-link">❤️</a>
+                        <a href="addFavorite.jsp?id=gangneung_food_6&place=카페제니엘" class="like-link">❤️</a>
                     </div>
                 </div>
 

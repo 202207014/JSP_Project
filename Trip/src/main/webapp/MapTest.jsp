@@ -1,286 +1,227 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>키워드로 장소검색하고 목록으로 표출하기</title>
+    <title>제주 명소/숙소/식당 커스텀 마커 표시</title>
     <style>
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}  
-#menu_wrap .option button {margin-left:5px;}
-#placesList li {list-style: none;}
-#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#8a8a8a;}
-#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#placesList .info .tel {color:#009900;}
-#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
+#mapwrap{position:relative;overflow:hidden;}
+.category, .category *{margin:0;padding:0;color:#000;}   
+.category {position:absolute;overflow:hidden;top:10px;left:10px;width:150px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+.category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;} 
+.category li{list-style:none;float:left;width:50px;height:45px;padding-top:5px;cursor:pointer;} 
+
+/* ------------------------------------------------ */
+/* 카테고리 버튼 아이콘 스타일 (새로운 이미지 경로 사용) */
+/* ------------------------------------------------ */
+.category .ico_comm {
+    display:block;
+    margin:0 auto 2px;
+    width:24px; /* 아이콘 크기 조정 */
+    height:24px; /* 아이콘 크기 조정 */
+    background-size: contain; /* 이미지가 영역 안에 맞게 축소/확대 */
+    background-repeat: no-repeat;
+    background-position: center;
+    /* 이전 스프라이트 이미지 제거 */
+} 
+
+/* 명소 아이콘 (산 모양) */
+.category .ico_attraction {
+    background-image: url('img/logo/location.png'); 
+}
+
+/* 숙소 아이콘 (침대 모양) */
+.category .ico_accommodation {
+    background-image: url('img/logo/stay.png'); 
+}
+
+/* 식당 아이콘 (포크/나이프 모양) */
+.category .ico_restaurant {
+    background-image: url('img/logo/food.png'); 
+}
 </style>
 </head>
 <body>
-<div class="map_wrap">
-    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-    <div id="menu_wrap" class="bg_white">
-        <div class="option">
-            <div>
-                <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-                    <button type="submit">검색하기</button> 
-                </form>
-            </div>
-        </div>
-        <hr>
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
+<div id="mapwrap"> 
+    <div id="map" style="width:100%;height:350px;"></div>
+    <div class="category">
+        <ul>
+            <li id="attractionMenu" onclick="changeMarker('attraction')">
+                <span class="ico_comm ico_attraction"></span>
+                명소
+            </li>
+            <li id="accommodationMenu" onclick="changeMarker('accommodation')">
+                <span class="ico_comm ico_accommodation"></span>
+                숙소
+            </li>
+            <li id="restaurantMenu" onclick="changeMarker('restaurant')">
+                <span class="ico_comm ico_restaurant"></span>
+                식당
+            </li>
+        </ul>
     </div>
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68de1d94b9b6c750e878cee4f2a98e34&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68de1d94b9b6c750e878cee4f2a98e34"></script>
 <script>
-// 마커를 담을 배열입니다
-var markers = [];
+// 카카오맵 설정
+var mapContainer = document.getElementById('map'),
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 제주도 중심 좌표 (대략)
+        level: 10 // 지도의 확대 레벨 
+    }; 
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
+var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+// ----------------------------------------------------
+// 1. 제주도 좌표 데이터
+// ----------------------------------------------------
+var attractionPositions = [ 
+    { title: '성산 일출봉', latlng: new kakao.maps.LatLng(33.462615, 126.936611) },
+    { title: '한라산 국립공원', latlng: new kakao.maps.LatLng(33.360700, 126.529000) },
+    { title: '대포해안주상절리대', latlng: new kakao.maps.LatLng(33.247470, 126.435251) },
+    { title: '한담해안 산책로', latlng: new kakao.maps.LatLng(33.468200, 126.335900) },
+    { title: '신창 풍차해안도로', latlng: new kakao.maps.LatLng(33.364400, 126.166400) },
+    { title: '별도봉 산책로', latlng: new kakao.maps.LatLng(33.513500, 126.549200) },
+    { title: '에코랜드 테마파크', latlng: new kakao.maps.LatLng(33.447300, 126.757000) },
+    { title: '제주김녕미로공원', latlng: new kakao.maps.LatLng(33.551200, 126.744100) },
+    { title: '더마파크', latlng: new kakao.maps.LatLng(33.435200, 126.279800) }
+];
+var accommodationPositions = [
+    { title: '제주 신라 호텔', latlng: new kakao.maps.LatLng(33.245800, 126.410300) },
+    { title: '그랜드 조선 제주', latlng: new kakao.maps.LatLng(33.245200, 126.408700) },
+    { title: '롯데 호텔 제주', latlng: new kakao.maps.LatLng(33.245100, 126.411600) },
+    { title: '제이앤클로이', latlng: new kakao.maps.LatLng(33.462900, 126.282800) },
+    { title: '홍스랜드', latlng: new kakao.maps.LatLng(33.541400, 126.852400) },
+    { title: '더비비스 제주', latlng: new kakao.maps.LatLng(33.473500, 126.302000) }
+];
+var restaurantPositions = [
+    { title: '돌담 흑돼지', latlng: new kakao.maps.LatLng(33.490700, 126.334000) },
+    { title: '갈치 바다 애월', latlng: new kakao.maps.LatLng(33.456000, 126.313000) },
+    { title: '수선화 식당', latlng: new kakao.maps.LatLng(33.549300, 126.879000) },
+    { title: '봄날', latlng: new kakao.maps.LatLng(33.467800, 126.332300) },
+    { title: '덤불', latlng: new kakao.maps.LatLng(33.486200, 126.347800) },
+    { title: '델문도', latlng: new kakao.maps.LatLng(33.542200, 126.666100) }
+];
 
-// 장소 검색 객체를 생성합니다
-var ps = new kakao.maps.services.Places();  
+// ----------------------------------------------------
+// 2. 마커 이미지 URL 정의 (카테고리 버튼과 동일한 파일 경로 사용)
+// ----------------------------------------------------
+// TODO: 이 경로를 실제 웹 서버의 이미지 URL로 변경해야 합니다!
+var attractionImageSrc = 'img/logo/location.png',
+    accommodationImageSrc = 'img/logo/stay.png',
+    restaurantImageSrc = 'img/logo/food.png';
 
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+var markerImageSize = new kakao.maps.Size(36, 36), 
+    markerImageOption = { offset: new kakao.maps.Point(18, 36) }; 
 
-// 키워드로 장소를 검색합니다
-searchPlaces();
+var attractionMarkers = [],
+    accommodationMarkers = [],
+    restaurantMarkers = [];
 
-// 키워드 검색을 요청하는 함수입니다
-function searchPlaces() {
+// ----------------------------------------------------
+// 3. 마커 생성 및 관리 함수 (기존 로직 유지)
+// ----------------------------------------------------
 
-    var keyword = document.getElementById('keyword').value;
-
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
-        return false;
-    }
-
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch( keyword, placesSearchCB); 
+function createMarkerImage(src) {
+    var markerImage = new kakao.maps.MarkerImage(src, markerImageSize, markerImageOption);
+    return markerImage;            
 }
 
-// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-function placesSearchCB(data, status, pagination) {
-    if (status === kakao.maps.services.Status.OK) {
-
-        // 정상적으로 검색이 완료됐으면
-        // 검색 목록과 마커를 표출합니다
-        displayPlaces(data);
-
-        // 페이지 번호를 표출합니다
-        displayPagination(pagination);
-
-    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
-        alert('검색 결과가 존재하지 않습니다.');
-        return;
-
-    } else if (status === kakao.maps.services.Status.ERROR) {
-
-        alert('검색 결과 중 오류가 발생했습니다.');
-        return;
-
-    }
+function createMarker(position, image, title) {
+    var marker = new kakao.maps.Marker({
+        position: position,
+        image: image,
+        title: title
+    });
+    return marker;  
+}   
+   
+function createAttractionMarkers() {
+    var attractionMarkerImage = createMarkerImage(attractionImageSrc);
+    for (var i = 0; i < attractionPositions.length; i++) {  
+        var marker = createMarker(attractionPositions[i].latlng, attractionMarkerImage, attractionPositions[i].title);  
+        attractionMarkers.push(marker);
+    }     
 }
 
-// 검색 결과 목록과 마커를 표출하는 함수입니다
-function displayPlaces(places) {
+function setAttractionMarkers(map) {        
+    for (var i = 0; i < attractionMarkers.length; i++) {  
+        attractionMarkers[i].setMap(map);
+    }        
+}
 
-    var listEl = document.getElementById('placesList'), 
-    menuEl = document.getElementById('menu_wrap'),
-    fragment = document.createDocumentFragment(), 
-    bounds = new kakao.maps.LatLngBounds(), 
-    listStr = '';
+function createAccommodationMarkers() {
+    var accommodationMarkerImage = createMarkerImage(accommodationImageSrc);
+    for (var i = 0; i < accommodationPositions.length; i++) {
+        var marker = createMarker(accommodationPositions[i].latlng, accommodationMarkerImage, accommodationPositions[i].title);  
+        accommodationMarkers.push(marker);    
+    }        
+}
+
+function setAccommodationMarkers(map) {        
+    for (var i = 0; i < accommodationMarkers.length; i++) {  
+        accommodationMarkers[i].setMap(map);
+    }        
+}
+
+function createRestaurantMarkers() {
+    var restaurantMarkerImage = createMarkerImage(restaurantImageSrc);
+    for (var i = 0; i < restaurantPositions.length; i++) {
+        var marker = createMarker(restaurantPositions[i].latlng, restaurantMarkerImage, restaurantPositions[i].title);  
+        restaurantMarkers.push(marker);        
+    }                
+}
+
+function setRestaurantMarkers(map) {        
+    for (var i = 0; i < restaurantMarkers.length; i++) {  
+        restaurantMarkers[i].setMap(map);
+    }        
+}
+
+// 초기 마커 생성 및 표시
+createAttractionMarkers();
+createAccommodationMarkers();
+createRestaurantMarkers();
+changeMarker('attraction'); 
+
+// ----------------------------------------------------
+// 4. 카테고리 클릭 이벤트 핸들러 (기존 로직 유지)
+// ----------------------------------------------------
+
+function changeMarker(type){
+    var attractionMenu = document.getElementById('attractionMenu');
+    var accommodationMenu = document.getElementById('accommodationMenu');
+    var restaurantMenu = document.getElementById('restaurantMenu');
     
-    // 검색 결과 목록에 추가된 항목들을 제거합니다
-    removeAllChildNods(listEl);
-
-    // 지도에 표시되고 있는 마커를 제거합니다
-    removeMarker();
-    
-    for ( var i=0; i<places.length; i++ ) {
-
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
-
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function(marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-                displayInfowindow(marker, title);
-            });
-
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
-
-            itemEl.onmouseover =  function () {
-                displayInfowindow(marker, title);
-            };
-
-            itemEl.onmouseout =  function () {
-                infowindow.close();
-            };
-        })(marker, places[i].place_name);
-
-        fragment.appendChild(itemEl);
-    }
-
-    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-    listEl.appendChild(fragment);
-    menuEl.scrollTop = 0;
-
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
-}
-
-// 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places) {
-
-    var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<div class="info">' +
-                '   <h5>' + places.place_name + '</h5>';
-
-    if (places.road_address_name) {
-        itemStr += '    <span>' + places.road_address_name + '</span>' +
-                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-    } else {
-        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-    }
-                 
-      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-                '</div>';           
-
-    el.innerHTML = itemStr;
-    el.className = 'item';
-
-    return el;
-}
-
-// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx, title) {
-    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-        imgOptions =  {
-            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-            marker = new kakao.maps.Marker({
-            position: position, // 마커의 위치
-            image: markerImage 
-        });
-
-    marker.setMap(map); // 지도 위에 마커를 표출합니다
-    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-    return marker;
-}
-
-// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-function removeMarker() {
-    for ( var i = 0; i < markers.length; i++ ) {
-        markers[i].setMap(null);
-    }   
-    markers = [];
-}
-
-// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-function displayPagination(pagination) {
-    var paginationEl = document.getElementById('pagination'),
-        fragment = document.createDocumentFragment(),
-        i; 
-
-    // 기존에 추가된 페이지번호를 삭제합니다
-    while (paginationEl.hasChildNodes()) {
-        paginationEl.removeChild (paginationEl.lastChild);
-    }
-
-    for (i=1; i<=pagination.last; i++) {
-        var el = document.createElement('a');
-        el.href = "#";
-        el.innerHTML = i;
-
-        if (i===pagination.current) {
-            el.className = 'on';
-        } else {
-            el.onclick = (function(i) {
-                return function() {
-                    pagination.gotoPage(i);
-                }
-            })(i);
-        }
-
-        fragment.appendChild(el);
-    }
-    paginationEl.appendChild(fragment);
-}
-
-// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-// 인포윈도우에 장소명을 표시합니다
-function displayInfowindow(marker, title) {
-    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-    infowindow.setContent(content);
-    infowindow.open(map, marker);
-}
-
- // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-function removeAllChildNods(el) {   
-    while (el.hasChildNodes()) {
-        el.removeChild (el.lastChild);
-    }
-}
+    if (type === 'attraction') {
+        attractionMenu.className = 'menu_selected';
+        accommodationMenu.className = '';
+        restaurantMenu.className = '';
+        
+        setAttractionMarkers(map);
+        setAccommodationMarkers(null);
+        setRestaurantMarkers(null);
+        
+    } else if (type === 'accommodation') {
+        attractionMenu.className = '';
+        accommodationMenu.className = 'menu_selected';
+        restaurantMenu.className = '';
+        
+        setAttractionMarkers(null);
+        setAccommodationMarkers(map);
+        setRestaurantMarkers(null);
+        
+    } else if (type === 'restaurant') {
+        attractionMenu.className = '';
+        accommodationMenu.className = '';
+        restaurantMenu.className = 'menu_selected';
+        
+        setAttractionMarkers(null);
+        setAccommodationMarkers(null);
+        setRestaurantMarkers(map);  
+    }    
+} 
 </script>
 </body>
 </html>

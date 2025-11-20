@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>부산 여행 명소 | Trip Planner</title>
-<!-- style sheet  -->
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/destination.css">
@@ -21,21 +20,19 @@
 		<hr class="divider">
 	</section>
 
-	<!-- 관광명소 -->
 	<section class="spot-section">
 		<h2 class="section-title">가볼 만한 곳</h2>
 		<h2 class="subtitle">해수욕장</h2>
 		<div class="spot-grid">
 			<div class="spot-card">
 				<div class="spot-image">
-				<a href="https://map.naver.com/p/search/${encodedLoc}%20해운대 해수욕장" target="_blank"><!-- 이미지 클릭시 네이버 지도로 이동 -->
-					<img src="img/busan/place/haewundae.jpg" alt="해운대">
+				<a href="https://map.naver.com/p/search/${encodedLoc}%20해운대 해수욕장" target="_blank"><img src="img/busan/place/haewundae.jpg" alt="해운대">
 					</a>
 				</div>
 				<div class="spot-info">
 					<h3>해운대 해수욕장</h3>
-					<a href="addFavorite.jsp?id=busan_place_1&place=해운대 해수욕장&type=해수욕장&img=img/busan/place/haewundae.jpg" class="like-link">❤️</a>
-				</div><!-- ❤️버튼 클릭시 addFavorite.jsp로 여행지 정보 가 넘어감(id, place, 이미지 경로 -->
+					<a href="addFavorite.jsp?id=busan_place_1&place=해운대 해수욕장" class="like-link">❤️</a>
+				</div>
 			</div>
 			<div class="spot-card">
 				<div class="spot-image">
@@ -45,7 +42,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>광안리 해수욕장</h3>
-					<a href="addFavorite.jsp?id=busan_place_2&place=광안리 해수욕장&type=해수욕장&img=img/busan/place/gwangalli-beach.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_place_2&place=광안리 해수욕장" class="like-link">❤️</a>
 				</div>
 			</div>
 			<div class="spot-card">
@@ -56,7 +53,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>송도 해수욕장</h3>
-					<a href="addFavorite.jsp?id=busan_place_3&place=송도 해수욕장&type=해수욕장&img=img/busan/place/songdo.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_place_3&place=송도 해수욕장" class="like-link">❤️</a>
 				</div>
 			</div>
 		</div>
@@ -73,7 +70,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>자갈치 시장</h3>
-						<a href="addFavorite.jsp?id=busan_place_4&place=자갈치 시장&type=시장&img=img/busan/place/jagalchi.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_4&place=자갈치 시장" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -84,7 +81,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>국제 시장</h3>
-						<a href="addFavorite.jsp?id=busan_place_5&place=국제 시장&type=시장&img=img/busan/place/gukjae.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_5&place=국제 시장" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -95,7 +92,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>기장 시장</h3>
-						<a href="addFavorite.jsp?id=busan_place_6&place=기장 시장&type=시장&img=img/busan/place/gijang.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_6&place=기장 시장" class="like-link">❤️</a>
 					</div>
 				</div>
 			</div>
@@ -110,7 +107,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>송도 케이블카</h3>
-						<a href="addFavorite.jsp?id=busan_place_7&place=송도 케이블카&type=체험관광지&img=img/busan/place/cablecar.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_7&place=송도 케이블카" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -121,7 +118,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>허심청 스파</h3>
-						<a href="addFavorite.jsp?id=busan_place_8&place=허심청 스파&type=체험관광지&img=img/busan/place/spa.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_8&place=허심청 스파" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -132,7 +129,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>SEA LIFE 아쿠아리움</h3>
-						<a href="addFavorite.jsp?id=busan_place_9&place=SEA LIFE 아쿠아리움&type=체험관광지&img=img/busan/place/sealife.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_place_9&place=SEA LIFE 아쿠아리움" class="like-link">❤️</a>
 					</div>
 				</div>
 			</div>
@@ -151,7 +148,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>그랜드 조선 부산</h3>
-					<a href="addFavorite.jsp?id=busan_stay_1&place=그랜드 조선 부산&type=호텔&img=img/busan/stay/grandjosun.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_stay_1&place=그랜드 조선 부산" class="like-link">❤️</a>
 				</div>
 			</div>
 			<div class="spot-card">
@@ -162,7 +159,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>파크 하얏트 부산</h3>
-					<a href="addFavorite.jsp?id=busan_stay_2&place=파크 하얏트 부산&type=호텔&img=img/busan/stay/parkhbusan.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_stay_2&place=파크 하얏트 부산" class="like-link">❤️</a>
 				</div>
 			</div>
 			<div class="spot-card">
@@ -173,7 +170,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>신라스테이 부산 해운대</h3>
-					<a href="addFavorite.jsp?id=busan_stay_3&place=신라스테이 부산 해운대&type=호텔&img=img/busan/stay/shillastay.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_stay_3&place=신라스테이 부산 해운대" class="like-link">❤️</a>
 				</div>
 			</div>
 		</div>
@@ -190,7 +187,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>카이브 부산 송정 1호점</h3>
-						<a href="addFavorite.jsp?id=busan_stay_4&place=카이브 부산 송정 1호점&type=펜션&img=img/busan/stay/kaiv.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_stay_4&place=카이브 부산 송정 1호점" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -201,7 +198,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>메르벨르펜션</h3>
-						<a href="addFavorite.jsp?id=busan_stay_5&place=메르벨르펜션&type=펜션&img=img/busan/stay/mrbel.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_stay_5&place=메르벨르펜션" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -212,7 +209,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>모네의 여름</h3>
-						<a href="addFavorite.jsp?id=busan_stay_6&place=모네의 여름&type=펜션&img=img/busan/stay/mone.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_stay_6&place=모네의 여름" class="like-link">❤️</a>
 					</div>
 				</div>
 			</div>
@@ -230,7 +227,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>해운대 횟집 미포점</h3>
-					<a href="addFavorite.jsp?id=busan_food_1&place=해운대 횟집 미포점&type=음식&img=img/busan/food/fish.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_food_1&place=해운대 횟집 미포점" class="like-link">❤️</a>
 				</div>
 			</div>
 			<div class="spot-card">
@@ -241,7 +238,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>디에이블 광안점</h3>
-					<a href="addFavorite.jsp?id=busan_food_2&place=디에이블 광안점&type=음식&img=img/busan/food/theable.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_food_2&place=디에이블 광안점" class="like-link">❤️</a>
 				</div>
 			</div>
 			<div class="spot-card">
@@ -252,7 +249,7 @@
 				</div>
 				<div class="spot-info">
 					<h3>조개 공장 서면점</h3>
-					<a href="addFavorite.jsp?id=busan_food_3&place=조개 공장 서면점&type=음식&img=img/busan/food/jogae.jpg" class="like-link">❤️</a>
+					<a href="addFavorite.jsp?id=busan_food_3&place=조개 공장 서면점" class="like-link">❤️</a>
 				</div>
 			</div>
 		</div>
@@ -268,7 +265,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>모모스커피 마린시티점</h3>
-						<a href="addFavorite.jsp?id=busan_food_4&place=모모스커피 마린시티점&type=음식&img=img/busan/food/momos.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_food_4&place=모모스커피 마린시티점" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -279,7 +276,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>카페잇샌드</h3>
-						<a href="addFavorite.jsp?id=busan_food_5&place=카페잇샌드&type=음식&img=img/busan/food/cafeitsand.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_food_5&place=카페잇샌드" class="like-link">❤️</a>
 					</div>
 				</div>
 				<div class="spot-card">
@@ -290,7 +287,7 @@
 					</div>
 					<div class="spot-info">
 						<h3>도시농가코페도코</h3>
-						<a href="addFavorite.jsp?id=busan_food_6&place=도시농가코페도코&type=음식&img=img/busan/food/doko.jpg" class="like-link">❤️</a>
+						<a href="addFavorite.jsp?id=busan_food_6&place=도시농가코페도코" class="like-link">❤️</a>
 					</div>
 				</div>
 			</div>
