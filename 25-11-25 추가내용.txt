@@ -1,0 +1,21 @@
+
+
+--SQL
+ community.sql 테이블 생성
+WEB-INF에 추가
+
+--커뮤니티 페이지 작성
+게시글 리스트 페이지(community_list.jsp)
+	ㄴ>DB테이블에 접근하여 저장되어있는 게시글 리스트를 불러오고 5개씩 보이게 페이징 기능 추가
+게시글 작성 폼 페이지(community_insert.jsp)
+ 	ㄴ> community_save.jsp로 전송하는 폼 페이지
+게시글 작성 처리 페이지(community_save.jsp)
+	ㄴ>전달 받은 데이터를 테이블에 저장 
+게시글 수정 폼 페이지 (community_update.jsp)
+	ㄴ> 작성자 아이디와 로그인 아이디가 똑같다면 게시글을 수정하는 폼 페이지
+게시글 수정 처리 페이지(community_update_pro.jsp)
+	ㄴ> 수정 폼에서 수정된 데이터를 DB 테이블에 UPDATE 시키는 페이지
+게시글 삭제 페이지(community_delete.jsp)
+	ㄴ> 작성자 아이디와 로그인 아이디가 똑같다면 게시글을 삭제 처리 하는 페이지
+게시글 보기페이지(community_view.jsp)
+	ㄴ> 리스트에 보이는 게시글의 내용을 보여주는 페이지
