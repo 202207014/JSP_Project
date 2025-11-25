@@ -142,7 +142,7 @@ var courses =   {
 //지도 생성
 var map = new kakao.maps.Map(document.getElementById('map'), {
 	center:new kakao.maps.LatLng(37.7459,128.8733), // 지도 중심 좌표
-	level:9
+	level:10
 });
 
 var ps = new kakao.maps.services.Places();// 장소 검색 서비스

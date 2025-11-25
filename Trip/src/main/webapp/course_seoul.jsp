@@ -156,7 +156,7 @@ var courses =  {
 
 var map = new kakao.maps.Map(document.getElementById('map'), {
 	center:new kakao.maps.LatLng(37.5703,126.9783),
-	level:9
+	level:10
 });
 
 var ps = new kakao.maps.services.Places();

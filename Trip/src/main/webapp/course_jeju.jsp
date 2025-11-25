@@ -13,65 +13,114 @@
 <link rel="stylesheet" href="css/destination.css">
 
 <style>
-.course-buttons { text-align:center; margin:20px 0; }
-.course-buttons button { margin:0 8px; padding:8px 14px; cursor:pointer; }
-#map { width:100%; height:600px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-.info-window { width:220px; }
-.info-window img { width:100%; height:110px; object-fit:cover; border-radius:4px; }
+.course-buttons {
+	text-align: center;
+	margin: 20px 0;
+}
+
+.course-buttons button {
+	margin: 0 8px;
+	padding: 8px 14px;
+	cursor: pointer;
+}
+
+#map {
+	width: 100%;
+	height: 600px;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-window {
+	width: 220px;
+}
+
+.info-window img {
+	width: 100%;
+	height: 110px;
+	object-fit: cover;
+	border-radius: 4px;
+}
 </style>
 </head>
 <body>
-<jsp:include page="header.jsp" />
+	<jsp:include page="header.jsp" />
 
-<%
-request.setCharacterEncoding("UTF-8");
+	<%
+	request.setCharacterEncoding("UTF-8");
 
-String jdbcUrl = "jdbc:mysql://localhost:3306/trip?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
-String dbUser = "root";
-String dbPass = "1234";
-Connection conn = null;
-PreparedStatement pstmt = null;
-ResultSet rs = null;
+	String jdbcUrl = "jdbc:mysql://localhost:3306/trip?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+	String dbUser = "root";
+	String dbPass = "1234";
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 
-class Place { String name,type; Place(String n,String t){name=n; type=t;} }
-List<Place> places = new ArrayList<>();
-
-try {
-	Class.forName("com.mysql.cj.jdbc.Driver");
-	conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
-
-	String sql="SELECT place_name, place_type FROM places WHERE place_id LIKE 'jeju_%'";
-	pstmt=conn.prepareStatement(sql);
-	rs=pstmt.executeQuery();
-	while(rs.next()){
-		places.add(new Place(rs.getString("place_name"), rs.getString("place_type")));
+	class Place {
+		String name, type;
+		Place(String n, String t) {
+			name = n;
+			type = t;
+		}
 	}
-} catch(Exception e){ e.printStackTrace(); } 
-finally { try{ if(rs!=null) rs.close(); } catch(Exception e){} try{ if(pstmt!=null) pstmt.close(); } catch(Exception e){} try{ if(conn!=null) conn.close(); } catch(Exception e){} }
+	List<Place> places = new ArrayList<>();
 
-StringBuilder jsPlaces = new StringBuilder("[");
-for(int i=0;i<places.size();i++){
-	Place p = places.get(i);
-	jsPlaces.append("{name:'").append(p.name).append("', type:'").append(p.type).append("'}");
-	if(i<places.size()-1) jsPlaces.append(",");
-}
-jsPlaces.append("]");
-%>
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
 
-<main style="max-width:1100px; margin:30px auto; padding:0 16px;">
-<h1 style="text-align:center; margin-bottom:8px;">제주 여행 코스</h1>
-<p style="text-align:center; color:#666; margin-top:0;">당일치기 · 1박2일 · 2박3일 버튼을 눌러 코스를 확인하세요.</p>
+		String sql = "SELECT place_name, place_type FROM places WHERE place_id LIKE 'jeju_%'";
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		while (rs.next()) {
+			places.add(new Place(rs.getString("place_name"), rs.getString("place_type")));
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (rs != null)
+		rs.close();
+		} catch (Exception e) {
+		}
+		try {
+			if (pstmt != null)
+		pstmt.close();
+		} catch (Exception e) {
+		}
+		try {
+			if (conn != null)
+		conn.close();
+		} catch (Exception e) {
+		}
+	}
 
-<div class="course-buttons">
-	<button onclick="loadCourse('1day')">당일치기</button>
-	<button onclick="loadCourse('2day')">1박 2일</button>
-	<button onclick="loadCourse('3day')">2박 3일</button>
-</div>
+	StringBuilder jsPlaces = new StringBuilder("[");
+	for (int i = 0; i < places.size(); i++) {
+		Place p = places.get(i);
+		jsPlaces.append("{name:'").append(p.name).append("', type:'").append(p.type).append("'}");
+		if (i < places.size() - 1)
+			jsPlaces.append(",");
+	}
+	jsPlaces.append("]");
+	%>
 
-<div id="map"></div>
+	<main style="max-width: 1100px; margin: 30px auto; padding: 0 16px;">
+		<h1 style="text-align: center; margin-bottom: 8px;">제주 여행 코스</h1>
+		<p style="text-align: center; color: #666; margin-top: 0;">당일치기 ·
+			1박2일 · 2박3일 버튼을 눌러 코스를 확인하세요.</p>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68de1d94b9b6c750e878cee4f2a98e34&libraries=services"></script>
-<script>
+		<div class="course-buttons">
+			<button onclick="loadCourse('1day')">당일치기</button>
+			<button onclick="loadCourse('2day')">1박 2일</button>
+			<button onclick="loadCourse('3day')">2박 3일</button>
+		</div>
+
+		<div id="map"></div>
+
+		<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68de1d94b9b6c750e878cee4f2a98e34&libraries=services"></script>
+		<script>
 var allPlaces = <%=jsPlaces.toString()%>;
 
 // 코스별 배열 (봄날 제거)
@@ -83,7 +132,7 @@ var courses = {
 
 var map = new kakao.maps.Map(document.getElementById('map'), {
 	center:new kakao.maps.LatLng(33.3617,126.5292),
-	level:9
+	level:10
 });
 
 var ps = new kakao.maps.services.Places();
@@ -140,11 +189,12 @@ function loadCourse(courseName){
 }
 </script>
 
-<div style="margin-top:18px; text-align:center;">
-<small style="color:#777;">※ 마커 클릭 없이 마우스 오버 시, 코스 정보와 장소 타입을 확인할 수 있습니다.</small>
-</div>
-</main>
+		<div style="margin-top: 18px; text-align: center;">
+			<small style="color: #777;">※ 마커 클릭 없이 마우스 오버 시, 코스 정보와 장소
+				타입을 확인할 수 있습니다.</small>
+		</div>
+	</main>
 
-<jsp:include page="footer.jsp" />
+	<jsp:include page="footer.jsp" />
 </body>
 </html>
