@@ -10,52 +10,27 @@
 
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/destination.css">
+<link rel="stylesheet" href="css/course.css">
 
-<style>
-.course-buttons {
-	text-align: center;
-	margin: 20px 0;
-}
-
-.course-buttons button {
-	margin: 0 8px;
-	padding: 8px 14px;
-	cursor: pointer;
-}
-
-#map {
-	width: 100%;
-	height: 600px;
-	border-radius: 6px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.info-window {
-	width: 220px;
-}
-
-.info-window img {
-	width: 100%;
-	height: 110px;
-	object-fit: cover;
-	border-radius: 4px;
-}
-</style>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
 
 	<%
+	// ==========================================================
+	// 1. 서버 측 로직: DB 연결 및 장소 정보 추출 (JDBC)
+	// ==========================================================
 	request.setCharacterEncoding("UTF-8");
 
+	// DB 연결 정보 설정 (MySQL)
 	String jdbcUrl = "jdbc:mysql://localhost:3306/trip?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
 	String dbUser = "root";
 	String dbPass = "1234";
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-
+	
+	// 장소 이름과 타입을 저장하기 위한 내부 클래스 정의
 	class Place {
 		String name, type;
 		Place(String n, String t) {
@@ -63,104 +38,113 @@
 			type = t;
 		}
 	}
+	// DB에서 가져온 장소 정보를 저장하는 자바 리스트
 	List<Place> places = new ArrayList<>();
 
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
-
+		
+		// 쿼리: places 테이블에서 'seoul_'로 시작하는 장소(이름, 타입)만 조회
 		String sql = "SELECT place_name, place_type FROM places WHERE place_id LIKE 'seoul_%'";
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
+		
+		// DB 결과(ResultSet)를 자바 리스트(places)에 저장
 		while (rs.next()) {
 			places.add(new Place(rs.getString("place_name"), rs.getString("place_type")));
 		}
 	} catch (Exception e) {
+		// 오류 발생 시 콘솔에 출력 (디버깅 목적)
 		e.printStackTrace();
 	} finally {
+		// DB 자원 해제 (안전한 닫기 처리)
 		try {
-			if (rs != null)
-		rs.close();
-		} catch (Exception e) {
-		}
+			if (rs != null) rs.close();
+		} catch (Exception e) {}
 		try {
-			if (pstmt != null)
-		pstmt.close();
-		} catch (Exception e) {
-		}
+			if (pstmt != null) pstmt.close();
+		} catch (Exception e) {}
 		try {
-			if (conn != null)
-		conn.close();
-		} catch (Exception e) {
-		}
+			if (conn != null) conn.close();
+		} catch (Exception e) {}
 	}
-
+	
+	// places 리스트를 JS에서 사용 가능한 JSON 배열 문자열 형태로 변환
 	StringBuilder jsPlaces = new StringBuilder("[");
 	for (int i = 0; i < places.size(); i++) {
 		Place p = places.get(i);
+		// JSON 객체 형식: {name:'...', type:'...'} 생성
 		jsPlaces.append("{name:'").append(p.name).append("', type:'").append(p.type).append("'}");
 		if (i < places.size() - 1)
 			jsPlaces.append(",");
 	}
 	jsPlaces.append("]");
+	// 최종 결과 예: [{name:'경복궁', type:'명소'}, ...]
 	%>
 
 	<main style="max-width: 1100px; margin: 30px auto; padding: 0 16px;">
 		<h1 style="text-align: center; margin-bottom: 8px;">서울 여행 코스</h1>
 		<p style="text-align: center; color: #666; margin-top: 0;">당일치기 ·
-			1박2일 · 2박3일 버튼을 눌러 코스를 확인하세요.</p>
-
+			1박2일 · 2박3일 버튼을 눌러 코스를 확인하세요。</p>
+		
 		<div class="course-buttons">
 			<button onclick="loadCourse('1day')">당일치기</button>
 			<button onclick="loadCourse('2day')">1박 2일</button>
 			<button onclick="loadCourse('3day')">2박 3일</button>
 		</div>
-
 		<div id="map"></div>
-
+		
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68de1d94b9b6c750e878cee4f2a98e34&libraries=services"></script>
+			
 		<script>
+// ==========================================================
+// 2. 클라이언트 측 로직: 지도 및 코스 관리 (JavaScript)
+// ==========================================================
+// JSP에서 서버 데이터를 받아 JS 변수로 초기화
 var allPlaces = <%=jsPlaces.toString()%>;
 
-// 코스별 배열 (봄날 제거)
-var courses =  {
-	    "1day": [
-	        "경복궁",
-	        "북촌 한옥마을",
-	        "창덕궁",
-	        "광장시장",
-	        "N서울타워"
-	    ],
-	    "2day": [
-	        "경복궁",
-	        "북촌 한옥마을",
-	        "롯데월드",
-	        "롯데 호텔 월드",   // 1박차 숙소
-	        "스타필드 코엑스몰",
-	        "권숙수"
-	    ],
-	    "3day": [
-	        "창덕궁",
-	        "서울숲",
-	        "동대문디자인플라자",
-	        "시그니엘 서울",   // 1박차 숙소
-	        "모도우 광화문점",
-	        "레스토랑 알렌",
-	        "그랜드 하얏트 서울", // 2박차 숙소
-	        "해방촌 브런치 헤미안",
-	        "밍글스"
-	    ]
-	};
+// 미리 정의된 코스 경로 배열 (장소 이름을 순서대로 나열)
+var courses = {
+    "1day": [
+        "경복궁",
+        "북촌 한옥마을",
+        "창덕궁",
+        "광장시장",
+        "N서울타워" // 당일치기 코스 예시
+    ],
 
+    "2day": [
+        "북촌 한옥마을",
+        "경복궁",
+        "롯데월드",
+        "롯데 호텔 월드",   // 1박차 숙소 예시
+        "스타필드 코엑스몰",
+        "권숙수"
+    ],
 
+    "3day": [
+        "창덕궁",
+        "동대문디자인플라자",
+        "서울숲공원", // "서울숲"에서 "서울숲공원"으로 데이터 일치성 개선
+        "모도우 광화문점",
+        "밍글스",
+        "레스토랑 알렌",
+        "그랜드 하얏트 서울", // 2박차 숙소 예시
+        "해방촌 브런치 헤미안",
+        "시그니엘 서울"       // 1박차 숙소 예시
+    ]
+};
+
+// 카카오 지도 객체 생성 및 초기화 (서울 중심 좌표 설정)
 var map = new kakao.maps.Map(document.getElementById('map'), {
-	center:new kakao.maps.LatLng(37.5703,126.9783),
-	level:10
+	center:new kakao.maps.LatLng(37.5703,126.9783), // 지도 초기 중심 (서울 시내 인근)
+	level:10 // 지도 확대 레벨
 });
 
-var ps = new kakao.maps.services.Places();
-var markers=[];
+var ps = new kakao.maps.services.Places(); // 카카오 장소 검색 서비스 객체
+var markers=[]; // 지도에 표시된 마커를 저장할 배열
 
 // 기존 마커 제거
 function removeMarkers(){
@@ -168,22 +152,24 @@ function removeMarkers(){
 	markers=[];
 }
 
-// 코스 로딩
+// 코스 로딩 및 지도에 표시
 function loadCourse(courseName){
-	removeMarkers();
-	var course=courses[courseName];
+	removeMarkers(); // 새 코스 로드 전 기존 마커 제거
+	var course=courses[courseName]; // 선택된 코스 배열 (장소 이름 목록)
 	if(!course) return;
 	
 	course.forEach(function(name,index){
+		// 1. DB에서 가져온 리스트(allPlaces)에서 현재 장소 이름에 해당하는 타입 정보를 찾음
 		var place = allPlaces.find(p=>p.name===name);
-		if(!place) return;
+		if(!place) return; // 장소 정보(타입)가 DB 리스트에 없으면 건너뛰기
 		
+		// 2. 카카오 장소 검색 API 호출 (장소 이름으로 좌표를 비동기적으로 얻어옴)
 		ps.keywordSearch(name,function(data,status){
 			if(status===kakao.maps.services.Status.OK){
-				var lat=data[0].y;
-				var lng=data[0].x;
+				var lat=data[0].y; // 위도
+				var lng=data[0].x; // 경도
 				
-				// 기본 마커
+				// 마커 생성 및 지도에 표시
 				var marker=new kakao.maps.Marker({
 					map:map,
 					position:new kakao.maps.LatLng(lat,lng),
@@ -191,14 +177,14 @@ function loadCourse(courseName){
 				});
 				markers.push(marker);
 
-				// 인포윈도우: 순서, 장소 타입
-				
+				// 3. 인포윈도우 내용 구성: 순서와 장소 타입 표시
 				var infoContent = '<div class="info-window"><strong>'+name+'</strong><br>'
                 + (index+1) + '번째 코스<br>'
-                 + place.type + '</div>';
+                 + place.type + '</div>'; // DB에서 가져온 place.type 사용
 
 				var infowindow = new kakao.maps.InfoWindow({ content: infoContent });
 
+				// 4. 마우스 오버/아웃 이벤트 리스너 추가 (인포윈도우 표시/숨김)
 				kakao.maps.event.addListener(marker,'mouseover',function(){
 					infowindow.open(map,marker);
 				});
@@ -206,6 +192,7 @@ function loadCourse(courseName){
 					infowindow.close();
 				});
 			} else {
+				// 검색 실패 시 콘솔에 로그 출력 (좌표를 찾지 못함)
 				console.log("검색 실패:"+name+", 상태:"+status);
 			}
 		});

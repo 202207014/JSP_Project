@@ -1,43 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <title>회원가입</title>
-    <link rel="stylesheet" href="css/header.css">
-	<link rel="stylesheet" href="css/register.css">    
+<meta charset="UTF-8" />
+<title>회원가입</title>
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/register.css">
 </head>
 <body>
-    <div class="logo">
-       <a href="${pageContext.request.contextPath}/index.jsp">Trip Planner</a>
-    </div>
-    <main>
-        <div class="register-container">
-            <h2>회원가입</h2>
-            <form action="registerProcess.jsp" method="post">
-                <label for="userid">아이디</label>
-                <div class="input-group"> 
-                    <input type="text" id="userid" name="userid" required autofocus maxlength="20" placeholder="아이디를 입력해주세요" />
-                    <button type="button" id="checkIdBtn">중복 확인</button>
-                </div>
-				 <input type="hidden" id="checkId" name="checkId" value="NO">
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required minlength="4" />
+	<div class="logo">
+		<a href="${pageContext.request.contextPath}/index.jsp">Trip
+			Planner</a>
+	</div>
+	<main>
+		<div class="register-container">
+			<h2>회원가입</h2>
+			<!-- 회원가입 폼 페이지 registerProcess.jsp에 값을 전달 -->
+			<form action="registerProcess.jsp" method="post">
+				<label for="userid">아이디</label>
+				<div class="input-group">
+					<input type="text" id="userid" name="userid" required autofocus
+						maxlength="20" placeholder="아이디를 입력해주세요" />
+					<!-- 중복확인 버튼 AJAX실행 -->
+					<button type="button" id="checkIdBtn">중복 확인</button>
+				</div>
+				<!-- 중복확인 여부 저장 -->
+				<input type="hidden" id="checkId" name="checkId" value="NO">
+				<label for="password">비밀번호</label> <input type="password"
+					id="password" name="password" required minlength="4" /> <label
+					for="passwordConfirm">비밀번호 확인</label> <input type="password"
+					id="passwordConfirm" name="passwordConfirm" required minlength="4" />
 
-                <label for="passwordConfirm">비밀번호 확인</label>
-                <input type="password" id="passwordConfirm" name="passwordConfirm" required minlength="4" />
+				<label for="name">이름</label> <input type="text" id="name"
+					name="name" required maxlength="30" />
 
-                <label for="name">이름</label>
-                <input type="text" id="name" name="name" required maxlength="30" />
-
-                <button type="submit">회원가입</button>
-            </form>
-            <div class="register-footer">
-                이미 회원이신가요? <a href="login.jsp">로그인</a>
-            </div>
-        </div>
-    </main>
-    <script>
+				<button type="submit">회원가입</button>
+			</form>
+			<div class="register-footer">
+				이미 회원이신가요? <a href="login.jsp">로그인</a>
+			</div>
+		</div>
+	</main>
+	<script>
+    	//비밀번호 확인 체크
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('.register-container form');
             form.addEventListener('submit', function(event) {
@@ -54,6 +60,7 @@
         document.getElementById("checkIdBtn").addEventListener("click", function () {
             const userid = document.getElementById("userid").value;
             const checkIdInput = document.getElementById("checkId");
+            //빈 값 확인
             if (userid.trim() === "") {
                 alert("아이디를 입력해주세요.");
                 return;
@@ -65,7 +72,7 @@
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    const result = xhr.responseText.trim();
+                    const result = xhr.responseText.trim(); //checkid.jsp에서 받은 값
 
                     if (result === "OK") {
                         alert("사용 가능한 아이디입니다.");
@@ -109,6 +116,6 @@
     </script>
 </body>
 <footer>
-<%@ include file="../footer.jsp" %>
+	<%@ include file="../footer.jsp"%>
 </footer>
 </html>

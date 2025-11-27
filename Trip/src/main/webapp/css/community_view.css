@@ -1,0 +1,88 @@
+@charset "UTF-8";
+/* css/community_view.css */
+
+/* --- 게시글 뷰 공통 레이아웃 --- */
+.view-wrapper {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* --- 헤더 및 정보 --- */
+.view-header h1 {
+    /* 기존 스타일과 맞춤: 초록색 대신 파란색 강조 계열 사용 권장 (프로젝트 일관성) */
+    border-bottom: 2px solid #3498db; 
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #333;
+}
+
+.view-header h1 span {
+    font-size: 0.5em;
+    color: #888;
+    margin-left: 10px;
+}
+
+.view-info {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+/* --- 내용 영역 --- */
+.view-content {
+    min-height: 200px;
+    padding: 20px;
+    line-height: 1.6;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background-color: #fafafa;
+    white-space: pre-wrap; /* 줄바꿈 유지 (Java의 replaceAll("\n", "<br>") 로직과 함께 작동) */
+}
+
+/* --- 액션 버튼 그룹 --- */
+.view-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.view-actions .btn {
+    padding: 8px 15px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+/* 목록 버튼 */
+.btn-list { 
+    background-color: #aaa; 
+    color: #fff; 
+}
+.btn-list:hover { background-color: #888; }
+
+/* 수정 버튼 (프로젝트 강조색인 파란색 계열로 변경) */
+.btn-edit { 
+    background-color: #3498db; 
+    color: #fff; 
+}
+.btn-edit:hover { background-color: #2980b9; }
+
+/* 삭제 버튼 */
+.btn-delete { 
+    background-color: #d9534f; 
+    color: #fff; 
+}
+.btn-delete:hover { background-color: #c9302c; }

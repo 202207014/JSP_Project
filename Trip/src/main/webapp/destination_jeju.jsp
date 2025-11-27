@@ -30,6 +30,7 @@
 
 				<div class="spot-card">
 					<div class="spot-image">
+					<!-- 이미지 클릭시 네이버 지도로 검색 -->
 					<a href="https://map.naver.com/p/search/${encodedLoc}%20성산일출봉"target="_blank">
 						<img src="img/jeju/place/ilchulbong.jpg" alt="성산 일출봉">
 						</a>
@@ -38,7 +39,7 @@
 						<h3>성산 일출봉</h3>
 						<a
 							href="addFavorite.jsp?id=jeju_place_1&place=성산 일출봉"
-							class="like-link">❤️</a>
+							class="like-link">❤️</a> <!-- 하트버튼을 누르면 addFavorite.jsp로 관광지 id와 이름 전달 -->
 					</div>
 				</div>
 

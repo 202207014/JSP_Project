@@ -14,6 +14,7 @@
     <main>
         <div class="login-container">
             <h2>로그인</h2>
+            <!-- 로그인 폼 페이지 폼 입력 시 loginProcess.jsp로 값을 넘김 -->
             <form action="loginProcess.jsp" method="post">
                 <label for="userid">아이디</label>
                 <input type="text" id="userid" name="userid" required autofocus />

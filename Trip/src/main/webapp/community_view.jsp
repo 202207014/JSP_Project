@@ -8,54 +8,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/community.css"> 
-    <style>
-        /* community_view 전용 스타일 (임시) */
-        .view-wrapper {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 30px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
-        }
-        .view-header h1 {
-            border-bottom: 2px solid #5cb85c;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .view-info {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            padding: 5px 0;
-            border-bottom: 1px dashed #eee;
-        }
-        .view-content {
-            min-height: 200px;
-            padding: 20px;
-            line-height: 1.6;
-            border: 1px solid #f0f0f0;
-            border-radius: 4px;
-            white-space: pre-wrap; /* 줄바꿈 유지 */
-        }
-        .view-actions {
-            margin-top: 30px;
-            text-align: right;
-        }
-        .view-actions .btn {
-            padding: 8px 15px;
-            margin-left: 5px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        .btn-list { background-color: #aaa; color: #fff; }
-        .btn-edit { background-color: #5cb85c; color: #fff; }
-        .btn-delete { background-color: #d9534f; color: #fff; }
-    </style>
+    <link rel="stylesheet" href="css/community_view.css">
 </head>
 <body>
 
@@ -69,7 +22,6 @@
 // ----------------------------------------------------
 request.setCharacterEncoding("UTF-8");
 
-// URL에서 게시글 번호(num) 가져오기
 String numParam = request.getParameter("num");
 if (numParam == null || numParam.isEmpty()) {
     out.println("<script>alert('잘못된 접근입니다.'); location.href='community_list.jsp';</script>");
@@ -77,7 +29,6 @@ if (numParam == null || numParam.isEmpty()) {
 }
 int num = Integer.parseInt(numParam);
 
-// 세션에서 로그인 ID 가져오기 (trim() 적용)
 String sessionId = (String) session.getAttribute("userid");
 if (sessionId != null) {
     sessionId = sessionId.trim();
@@ -158,7 +109,7 @@ if (!isPostFound) {
             <div class="view-header">
                 <h1 class="form-title">
                     <%= post_subject %>
-                    <span style="font-size: 0.5em; color: #888;">[<%= post_area %>]</span>
+                    <span>[<%= post_area %>]</span>
                 </h1>
             </div>
             <div class="view-info">

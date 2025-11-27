@@ -10,7 +10,7 @@
 <%
 request.setCharacterEncoding("UTF-8"); //request 인코딩 설정
 String userId = (String)session.getAttribute("userid"); // 로그인된 사용자 ID
-// 2. 로그인 및 필수 파라미터 체크
+// 2. 로그인 세션 체크
 if (userId == null) {
     out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp';</script>");
     return;
@@ -58,8 +58,7 @@ try {
         
     } else {
         //찜 추가 (INSERT)
-        //DB 스키마: fav_id, user_id, place_name, place_img, place_type
-        //SQL 수정: 파라미터 개수(5개) 및 순서 수정
+        //favorites 테이블에  fav_id, user_id 추가 insert 문
         String insertSql = "INSERT INTO favorites (user_id, place_id) VALUES (?, ?)";
         
         pstmt.close(); // 기존 pstmt 닫기

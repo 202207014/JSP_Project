@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="css/header.css"> 
 <header>
     <nav class="navbar">
-        <div class="logo">
+      <!-- 로고 클릭 시 index.jsp 로 이동 -->
+        <div class="logo"> 
            <a href="${pageContext.request.contextPath}/index.jsp">Trip Planner</a>
         </div>
         
@@ -15,8 +16,7 @@
         
         <div class="nav-actions">
             <%
-                // 세션에서 userid 값을 가져옵니다.
-                // 로그인 시 loginProcess.jsp에서 session.setAttribute("userid", userid)를 했을 것입니다.
+                // 세션에서 userid 와 username 값을 가져옵니다.
                 String userid = (String) session.getAttribute("userid");
                 String username =(String) session.getAttribute("username");
                 if (userid != null && !userid.isEmpty()) {

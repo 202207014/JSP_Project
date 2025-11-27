@@ -1,315 +1,220 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*, java.util.*, java.text.SimpleDateFormat" %>
 <%@ include file="../header.jsp" %>
 
-<style>
+<link rel="stylesheet" href="css/TripDetail.css">
 
-/* 일정 기능 CSS */
-.add-btn {
-  background: #4A90E2;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  margin-top: 20px;
-}
+<%
+    String tripIdParam = request.getParameter("tripId");
+    String userId = (String) session.getAttribute("userid");
 
-.schedule-list { margin-top: 20px; display:flex; flex-direction:column; gap:12px; }
+    if (tripIdParam == null || userId == null) {
+        out.println("<script>alert('잘못된 접근입니다.'); location.href='MyTripMain.jsp';</script>");
+        return;
+    }
+    int tripId = Integer.parseInt(tripIdParam);
 
-.schedule-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 12px 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  position: relative;
-}
+    String url = "jdbc:mysql://localhost:3306/trip?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+    String dbUser = "root";
+    String dbPass = "1234";
 
-.schedule-card .delete-btn {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  border: none;
-  background: #ff5b5b;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
 
-/* 모달 */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  justify-content: center;
-  align-items: center;
-}
+    String title = "", location = "", image = "", memo = "";
+    
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(url, dbUser, dbPass);
 
-.modal-content {
-  background: #fff;
-  padding: 18px;
-  width: 320px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
+        // 1. 여행 기본 정보 조회
+        String sql = "SELECT title, location, image, memo FROM mytrip WHERE id = ? AND user_id = ?";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, tripId);
+        pstmt.setString(2, userId);
+        rs = pstmt.executeQuery();
 
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-}
-
-.modal-btns { display:flex; gap:8px; margin-top:12px; }
-.modal-btns button { flex:1; padding:8px 10px; border-radius:6px; border:none; cursor:pointer; }
-.modal-btns .save { background:#2d8cff; color:#fff; }
-.modal-btns .cancel { background:#eee; }
-
-/* 상세 정보 CSS */
-.detail-container {
-    max-width: 900px;
-    margin: 40px auto;
-    font-family: sans-serif;
-}
-
-.detail-card {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    background: white;
-}
-
-.detail-img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-}
-
-.detail-info {
-    padding: 20px;
-}
-
-.detail-title {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 0 0 10px 0;
-}
-
-.detail-location {
-    font-size: 16px;
-    color: #555;
-}
-
-.detail-buttons {
-    margin-top: 25px;
-    display: flex;
-    gap: 12px;
-}
-
-.detail-buttons a {
-    padding: 10px 16px;
-    border-radius: 6px;
-    border: 1px solid #aaa;
-    text-decoration: none;
-    color: #333;
-    font-size: 15px;
-}
-
-.memo-box {
-    margin-top: 30px;
-}
-
-.memo-box textarea {
-    width: 100%;
-    height: 140px;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: none;
-    font-size: 15px;
-}
-
-</style>
+        if (rs.next()) {
+            title = rs.getString("title");
+            location = rs.getString("location");
+            image = rs.getString("image");
+            memo = rs.getString("memo");
+            if(memo == null) memo = "";
+        } else {
+            out.println("<script>alert('여행 정보를 찾을 수 없습니다.'); location.href='MyTripMain.jsp';</script>");
+            return;
+        }
+%>
 
 <main class="detail-container">
+    <div class="detail-card">
+        
+        <div class="detail-img-wrapper">
+            <img src="<%= image != null && !image.isEmpty() ? image : "img/sample_trip.jpg" %>" class="detail-img" onerror="this.src='img/sample_trip.jpg'">
+            <button type="button" class="btn-edit-img" onclick="document.getElementById('imageModal').style.display='flex'">
+                📷 이미지 변경
+            </button>
+        </div>
 
-  <h1 style="margin-bottom:20px;">여행 상세 정보</h1>
+        <div class="detail-info">
+            <h1 class="detail-title"><%= title %> <small style="font-size:0.6em; color:#777;">(<%= location %>)</small></h1>
+            
+            <form action="MyTripProcess.jsp?action=updateMemo" method="post" class="memo-box">
+                <input type="hidden" name="tripId" value="<%= tripId %>">
+                <div class="memo-label">📝 메모</div>
+                <textarea name="memo" class="memo-textarea" placeholder="여행 아이디어, 준비물 등을 기록하세요."><%= memo %></textarea>
+                <div style="overflow:hidden;">
+                    <button type="submit" class="btn-memo-save">저장</button>
+                </div>
+            </form>
 
-  <div id="detailContent"></div>
+            <div class="detail-buttons">
+                <button onclick="toggleRecommendation(this, '숙박', '<%= location %>')">🏨 숙박 추천</button>
+                <button onclick="toggleRecommendation(this, '즐길거리', '<%= location %>')">🎡 즐길거리 추천</button>
+                <button onclick="toggleRecommendation(this, '맛집', '<%= location %>')">🍽 맛집 추천</button>
+            </div>
+            
+            <div id="recommendationArea">
+                <h3 id="recommendTitle"></h3>
+                <div id="placeContent">
+                    </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="schedule-area">
+        <div class="schedule-header">
+            <h2>🗓 상세 일정</h2>
+            <button onclick="document.getElementById('scheduleModal').style.display='flex'" class="add-btn">+ 일정 추가</button>
+        </div>
+
+        <div id="scheduleList">
+            <%
+                // 2. 일정 목록 조회
+                if (pstmt != null) pstmt.close();
+                String schSql = "SELECT id, schedule_date, schedule_time, place, memo FROM trip_schedule WHERE trip_id = ? ORDER BY schedule_date ASC, schedule_time ASC";
+                pstmt = conn.prepareStatement(schSql);
+                pstmt.setInt(1, tripId);
+                rs = pstmt.executeQuery();
+
+                if (!rs.isBeforeFirst()) {
+                    out.println("<div style='background:#f9f9f9; padding:20px; text-align:center; border-radius:8px; color:#888;'>등록된 일정이 없습니다.</div>");
+                } else {
+                    while (rs.next()) {
+                        int schId = rs.getInt("id");
+                        String date = rs.getString("schedule_date");
+                        String time = rs.getString("schedule_time").substring(0, 5);
+                        String place = rs.getString("place");
+                        String schMemo = rs.getString("memo");
+            %>
+            <div class="schedule-card">
+                <div>
+                    <div style="font-size:1.1em; font-weight:bold; color:#333;">
+                        <%= date %> <span style="color:#888; font-weight:normal; margin-left:5px;"><%= time %></span>
+                    </div>
+                    <div style="margin-top:5px; color:#3498db; font-weight:600;">📍 <%= place %></div>
+                    <% if(schMemo != null && !schMemo.isEmpty()) { %>
+                        <p style="margin:5px 0 0 0; color:#666; font-size:0.9em;">- <%= schMemo %></p>
+                    <% } %>
+                </div>
+                <button onclick="if(confirm('삭제하시겠습니까?')) location.href='ScheduleProcess.jsp?action=delete&id=<%= schId %>&tripId=<%= tripId %>'"
+                        style="background:#ff5b5b; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">삭제</button>
+            </div>
+            <%
+                    }
+                }
+            %>
+        </div>
+    </div>
 </main>
 
-<!-- 일정 영역 -->
-<div id="scheduleArea" style="max-width:900px; margin:20px auto; padding:0 16px;">
-  
-  <h2 style="margin:20px 0 10px 0;">🗓 일정</h2>
+<div id="scheduleModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>일정 추가</h3>
+        <form action="ScheduleProcess.jsp?action=add" method="post">
+            <input type="hidden" name="tripId" value="<%= tripId %>"> 
+            
+            <label class="modal-label">날짜</label>
+            <input type="date" name="scheduleDate" required class="modal-input">
+            
+            <label class="modal-label">시간</label>
+            <input type="time" name="scheduleTime" required class="modal-input">
+            
+            <label class="modal-label">장소</label>
+            <input type="text" name="place" placeholder="예: 맛집 탐방" required class="modal-input">
+            
+            <label class="modal-label">메모</label>
+            <textarea name="memo" rows="3" class="modal-textarea"></textarea>
 
-  <button id="openScheduleModal" class="add-btn">＋ 일정 추가</button>
-
-  <div id="scheduleList" class="schedule-list"></div>
+            <div class="modal-actions">
+                <button type="button" onclick="document.getElementById('scheduleModal').style.display='none'" class="btn-cancel">취소</button>
+                <button type="submit" class="btn-save">저장</button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<!-- 일정 추가 모달 -->
-<div id="scheduleModal" class="modal" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true">
-    <h3 style="margin:0 0 10px 0;">일정 추가</h3>
-
-    <label>날짜</label>
-    <input type="date" id="scheduleDate">
-
-    <label>시간</label>
-    <input type="time" id="scheduleTime">
-
-    <label>장소</label>
-    <input type="text" id="schedulePlace" placeholder="장소 입력">
-
-    <label>메모</label>
-    <textarea id="scheduleMemo" placeholder="메모 입력" rows="4"></textarea>
-
-    <div class="modal-btns">
-      <button id="saveScheduleBtn" class="save">저장</button>
-      <button id="closeScheduleModal" class="cancel">취소</button>
+<div id="imageModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>대표 이미지 변경</h3>
+        <p style="color:#666; font-size:14px; margin-bottom:15px;">변경할 이미지의 주소(URL)를 입력하세요.</p>
+        
+        <form action="MyTripProcess.jsp?action=updateImage" method="post">
+            <input type="hidden" name="tripId" value="<%= tripId %>">
+            <input type="text" name="imageUrl" required placeholder="https://example.com/image.jpg" class="modal-input">
+            
+            <div class="modal-actions">
+                <button type="button" onclick="document.getElementById('imageModal').style.display='none'" class="btn-cancel">취소</button>
+                <button type="submit" class="btn-save">변경 저장</button>
+            </div>
+        </form>
     </div>
-  </div>
 </div>
 
 <script>
-/* ================================
-   여행 상세 정보 표시
-================================ */
+// --- 아코디언(토글) 기능 스크립트 ---
+function toggleRecommendation(btn, type, location) {
+    const area = document.getElementById('recommendationArea');
+    const content = document.getElementById('placeContent');
+    const title = document.getElementById('recommendTitle');
+    const buttons = document.querySelectorAll('.detail-buttons button');
 
-const trips = JSON.parse(localStorage.getItem("myTrips") || "[]");
-const selectedId = localStorage.getItem("selectedTripId");
-const trip = trips.find(t => t.id == selectedId);
+    // 1. 닫기 로직
+    if (area.style.display === 'block' && btn.classList.contains('active')) {
+        area.style.display = 'none';
+        btn.classList.remove('active');
+        return;
+    }
 
-if (!trip) {
-    document.getElementById("detailContent").innerHTML =
-        "<p>선택된 여행 정보를 찾을 수 없습니다.</p>";
-} else {
-    const encodedLoc = encodeURIComponent(trip.location);
+    // 2. 열기/전환 로직
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
 
-    document.getElementById("detailContent").innerHTML = `
-      <div class="detail-card">
-          <img src="\${trip.image}" class="detail-img">
+    area.style.display = 'block';
+    title.innerHTML = `추천 목록`;
+    content.innerHTML = '<p style="text-align:center; width:100%; padding:20px;">데이터를 불러오는 중입니다...</p>';
 
-          <div class="detail-info">
-              <h2 class="detail-title">\${trip.name}</h2>
-              <p class="detail-location">\${trip.location}</p>
-
-              <div class="detail-buttons">
-                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20숙박" target="_blank">숙박</a>
-                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20즐길거리" target="_blank">즐길거리</a>
-                  <a href="https://map.naver.com/p/search/\${encodedLoc}%20맛집" target="_blank">맛집</a>
-              </div>
-
-              <div class="memo-box">
-                <h3>메모</h3>
-                <textarea id="memo">\${trip.memo || ""}</textarea>
-                <button style="margin-top:10px; padding:10px 16px; background:#444; color:white; border:none; border-radius:6px; cursor:pointer;"
-                        onclick="saveMemo(\${trip.id})">메모 저장</button>
-              </div>
-
-          </div>
-      </div>
-    `;
+    // AJAX 요청
+    fetch(`place_list_fetch.jsp?location=\${encodeURIComponent(location)}&type=\${encodeURIComponent(type)}`)
+        .then(response => response.text())
+        .then(html => {
+            content.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            content.innerHTML = '<p style="text-align:center; color:red;">데이터 로드 실패</p>';
+        });
 }
-
-function saveMemo(id) {
-    const memoText = document.getElementById("memo").value;
-    const updated = trips.map(t => t.id == id ? { ...t, memo: memoText } : t);
-    localStorage.setItem("myTrips", JSON.stringify(updated));
-    alert("메모가 저장되었습니다!");
-}
-
-/* ================================
-   일정 기능
-================================ */
-
-const scheduleKey = "trip_schedule_" + selectedId;
-let schedules = JSON.parse(localStorage.getItem(scheduleKey) || "[]");
-
-const modal = document.getElementById("scheduleModal");
-const openModalBtn = document.getElementById("openScheduleModal");
-const closeModalBtn = document.getElementById("closeScheduleModal");
-const saveBtn = document.getElementById("saveScheduleBtn");
-const scheduleListEl = document.getElementById("scheduleList");
-
-function renderSchedules() {
-  scheduleListEl.innerHTML = "";
-
-  if (schedules.length === 0) {
-    scheduleListEl.innerHTML =
-      '<p style="color:#777; text-align:center; padding:18px;">등록된 일정이 없습니다.</p>';
-    return;
-  }
-
-  schedules.sort((a, b) => (a.date + a.time > b.date + b.time ? 1 : -1));
-
-  schedules.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "schedule-card";
-
-    div.innerHTML = `
-      <strong>\${s.date} \${s.time}</strong>
-      <div style="margin-top:6px;">📍 \${s.place}</div>
-      <p style="margin:8px 0 0 0; color:#444;">\${s.memo}</p>
-      <button class="delete-btn" data-id="\${s.id}">삭제</button>
-    `;
-
-    scheduleListEl.appendChild(div);
-  });
-
-  // 삭제 기능
-  scheduleListEl.querySelectorAll(".delete-btn").forEach(btn => {
-    btn.addEventListener("click", function() {
-      const id = Number(this.dataset.id);
-      schedules = schedules.filter(s => s.id !== id);
-      localStorage.setItem(scheduleKey, JSON.stringify(schedules));
-      renderSchedules();
-    });
-  });
-}
-
-openModalBtn.addEventListener("click", () => {
-  modal.style.display = "flex";
-});
-
-closeModalBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-saveBtn.addEventListener("click", () => {
-  const date = document.getElementById("scheduleDate").value;
-  const time = document.getElementById("scheduleTime").value;
-  const place = document.getElementById("schedulePlace").value;
-  const memo = document.getElementById("scheduleMemo").value;
-
-  if (!date || !time || !place) {
-    alert("날짜, 시간, 장소는 필수 입력입니다.");
-    return;
-  }
-
-  schedules.push({
-    id: Date.now(),
-    date, time, place, memo
-  });
-
-  localStorage.setItem(scheduleKey, JSON.stringify(schedules));
-  modal.style.display = "none";
-  renderSchedules();
-});
-
-// 첫 로딩 시 일정 출력
-renderSchedules();
-
-
 </script>
 
+<%
+    } catch(Exception e) {
+        e.printStackTrace();
+    } finally {
+        if(rs != null) try { rs.close(); } catch(Exception e) {}
+        if(pstmt != null) try { pstmt.close(); } catch(Exception e) {}
+        if(conn != null) try { conn.close(); } catch(Exception e) {}
+    }
+%>
 <%@ include file="../footer.jsp" %>

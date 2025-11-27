@@ -26,6 +26,7 @@
 		<div class="spot-grid">
 			<div class="spot-card">
 				<div class="spot-image">
+				
 				<a href="https://map.naver.com/p/search/${encodedLoc}%20해운대 해수욕장" target="_blank"><img src="img/busan/place/haewundae.jpg" alt="해운대">
 					</a>
 				</div>

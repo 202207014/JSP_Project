@@ -16,14 +16,14 @@
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
-		
+		//아이디 중복 확인을 위한 sql문
         String sql = "SELECT id FROM members WHERE id = ?";
         pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, userid);
         rs = pstmt.executeQuery();
 
         if (rs.next()) {
-            out.print("USED");  // 이미 존재함
+            out.print("USED");  // 이미 존재함 
         } else {
             out.print("OK");    // 사용 가능
         }
