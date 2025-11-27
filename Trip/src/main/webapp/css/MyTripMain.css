@@ -249,3 +249,83 @@
 .modal-btn-cancel:hover {
     background-color: #ddd;
 }
+/* css/MyTripMain.css (추가된 찜 목록 스타일) */
+
+/* --- 찜 목록 섹션 --- */
+.favorites-area {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.favorites-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #3498db;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.favorite-cards-wrapper {
+    display: flex;
+    justify-content: center; /* 카드들을 중앙 정렬 */
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* 찜 카드 (소형) */
+.favorite-card-small {
+    width: 100px; /* 고정 너비 */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    position: relative; /* 삭제 버튼 위치 기준 */
+}
+
+.favorite-card-small:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.fav-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+}
+
+.fav-title {
+    font-size: 0.8em;
+    margin: 5px 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #555;
+    padding-bottom: 5px;
+}
+
+
+/* --- 메시지 영역 (DB 오류, 빈 목록) --- */
+.msg-empty, .msg-login {
+    text-align: center;
+    color: #999;
+    padding: 20px 0;
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.msg-error {
+    color: #e74c3c;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+    border: 1px solid #f9caca;
+    background: #fffafa;
+    border-radius: 5px;
+}

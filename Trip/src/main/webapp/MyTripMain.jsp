@@ -18,7 +18,6 @@
         return;
     }
 
-    // JDBC 연결 객체 및 DB 설정
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -27,20 +26,18 @@
     String dbUser = "root";
     String dbPass = "1234";
     
-    // DB에서 조회한 여행 목록을 담을 리스트
     List<Map<String, String>> myTripList = new ArrayList<>();
     
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(url, dbUser, dbPass);
 
-        // 쿼리: 현재 사용자(user_id)의 여행 목록을 최신순(updated_at DESC)으로 조회
+        // 2. mytrip 테이블에서 현재 사용자의 여행 목록 조회 (최신순)
         String sql = "SELECT id, title, location, image, updated_at FROM mytrip WHERE user_id = ? ORDER BY updated_at DESC";
         pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, userId);
         rs = pstmt.executeQuery();
 
-        // 조회 결과를 리스트에 저장
         while (rs.next()) {
             Map<String, String> trip = new HashMap<>();
             trip.put("id", String.valueOf(rs.getInt("id")));
@@ -57,11 +54,12 @@
             myTripList.add(trip);
         }
     } catch (Exception e) {
-        // DB 오류 발생 시 화면에 출력
+        // DB 오류 발생 시 화면에 출력 (CSS 클래스 사용)
         out.println("<p class='error-msg'>여행 목록을 불러오는 중 DB 오류 발생: " + e.getMessage() + "</p>");
         e.printStackTrace();
     } finally {
-        // DB 자원 해제 (null 체크 포함)
+        // conn을 닫지 않고 찜 목록 조회에 사용하기 위해 try-finally 밖으로 빼는 것이 효율적이지만,
+        // 안전을 위해 여기서 자원을 닫고 찜 목록에서 재연결/조회하는 방식으로 구현합니다.
         if (rs != null) try { rs.close(); } catch (Exception e) {}
         if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
         if (conn != null) try { conn.close(); } catch (Exception e) {}
@@ -80,17 +78,16 @@
 
     <section id="tripList" class="trip-list-section">
         <%
-            // 2. HTML 출력 로직: 여행 목록이 비어있는 경우
             if (myTripList.isEmpty()) {
         %>
             <div class="empty-msg-box">
                 <p>아직 등록된 여행이 없습니다.<br>‘새 여행 만들기’ 버튼을 눌러 여행을 추가해보세요!</p>
             </div>
         <%
-            // 3. HTML 출력 로직: 여행 목록이 있는 경우
             } else {
                 for (Map<String, String> trip : myTripList) {
-                    String tripId = trip.get("id"); // 여행 고유 ID
+                    String encodedLoc = URLEncoder.encode(trip.get("location"), "UTF-8");
+                    String tripId = trip.get("id");
         %>
             <div class="trip-card" onclick="location.href='TripDetail.jsp?tripId=<%=tripId%>'">
 
@@ -100,15 +97,20 @@
                         🗑
                     </button>
                 </div>
+                
                 <img src="<%= trip.get("image") %>" alt="여행 이미지" class="trip-card-img" onerror="this.src='img/sample_trip.jpg'">
                 
                 <div class="trip-card-content">
                     <h3 class="trip-title"><%= trip.get("title") %></h3>
                     <p class="trip-location"><%= trip.get("location") %></p>
+                    
+                    <div class="trip-links">
+                        <a href="https://map.naver.com/p/search/<%=encodedLoc %>%20숙박" target="_blank" class="link-btn">숙박</a>
+                        <a href="https://map.naver.com/p/search/<%=encodedLoc %>%20맛집" target="_blank" class="link-btn">맛집</a>
+                    </div>
                 </div>
             </div>
         <%
-            // 4. HTML 출력 종료
             }
         }
         %>
@@ -117,7 +119,58 @@
     <hr class="section-divider">
 
     <div class="favorites-area">
+        <h2 class="favorites-title">나의 최근 찜 목록</h2>
+        <div class="favorite-cards-wrapper">
+            <%
+            // 찜 목록을 위한 DB 연결 및 조회
+            Connection favConn = null;
+            PreparedStatement favPstmt = null;
+            ResultSet favRs = null;
+
+            try {
+                // DB 재연결
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                favConn = DriverManager.getConnection(url, dbUser, dbPass);
+                
+                // 쿼리: favorites와 places를 JOIN하여 최근 3개 항목 조회 (CSS 클래스에 맞춰 3개로 제한)
+                String favSql = "SELECT p.place_name, p.place_img, f.fav_id FROM favorites f JOIN places p ON f.place_id = p.place_id WHERE f.user_id = ? ORDER BY f.created_at DESC LIMIT 3";
+                
+                favPstmt = favConn.prepareStatement(favSql);
+                favPstmt.setString(1, userId);
+                favRs = favPstmt.executeQuery();
+
+                boolean found = false;
+                while (favRs.next()) {
+                    found = true;
+                    String name = favRs.getString("place_name");
+                    String img = favRs.getString("place_img");
+            %>
+                <div class="favorite-card-small">
+                    <img src="<%= img %>" alt="<%= name %>" class="fav-img">
+                    <p class="fav-title"><%= name %></p>
+                </div>
+            <%
+                }
+                
+                if (!found) {
+            %>
+                <p class="msg-empty">찜 목록이 비어있습니다.</p>
+            <%
+                }
+
+            } catch (Exception e) {
+            %>
+                <p class="msg-error">찜 목록 로드 오류: <%= e.getMessage() %></p>
+            <%
+            } finally {
+                // 찜 목록 조회 자원 해제
+                if (favRs != null) try { favRs.close(); } catch (Exception e) {}
+                if (favPstmt != null) try { favPstmt.close(); } catch (Exception e) {}
+                if (favConn != null) try { favConn.close(); } catch (Exception e) {}
+            }
+            %>
         </div>
+    </div>
 </main>
 
 
@@ -148,7 +201,6 @@
 </div>
 
 <script>
-// 5. 클라이언트 측 JavaScript (UI 제어)
 function showAddTripModal() {
     document.getElementById('addTripModal').style.display = 'flex';
 }
