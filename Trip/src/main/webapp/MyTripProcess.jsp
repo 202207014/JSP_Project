@@ -41,7 +41,7 @@
             if (title == null || title.trim().isEmpty() || location == null || location.trim().isEmpty()) {
                 message = "여행 제목과 지역을 입력해주세요.";
             } else {
-                if (image != null && image.trim().isEmpty()) image = null;
+                if (image != null && image.trim().isEmpty()) image = "https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp";
 
                 String sql = "INSERT INTO mytrip (user_id, title, location, image, memo) VALUES (?, ?, ?, ?, NULL)";
                 pstmt = conn.prepareStatement(sql);
