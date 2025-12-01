@@ -58,8 +58,6 @@
         out.println("<p class='error-msg'>여행 목록을 불러오는 중 DB 오류 발생: " + e.getMessage() + "</p>");
         e.printStackTrace();
     } finally {
-        // conn을 닫지 않고 찜 목록 조회에 사용하기 위해 try-finally 밖으로 빼는 것이 효율적이지만,
-        // 안전을 위해 여기서 자원을 닫고 찜 목록에서 재연결/조회하는 방식으로 구현합니다.
         if (rs != null) try { rs.close(); } catch (Exception e) {}
         if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
         if (conn != null) try { conn.close(); } catch (Exception e) {}

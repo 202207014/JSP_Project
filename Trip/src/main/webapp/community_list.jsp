@@ -12,7 +12,7 @@
     }
 
     // 2. 페이징 변수 설정
-    int pageSize = 5; // 한 페이지에 보여줄 게시글 수 (요청하신 5개)
+    int pageSize = 5; // 한 페이지에 보여줄 게시글 수
     
     String pageNum = request.getParameter("pageNum");
     if (pageNum == null) {
