@@ -190,16 +190,16 @@ function toggleRecommendation(btn, type, location) {
     // 2. 열기/전환 로직
     buttons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     area.style.display = 'block';
     title.innerHTML = `추천 목록`;
     content.innerHTML = '<p style="text-align:center; width:100%; padding:20px;">데이터를 불러오는 중입니다...</p>';
 
     // AJAX 요청
+    // 1. 비동기 요청 (AJAX): 페이지 이동 없이 서버에 데이터 요청
     fetch(`place_list_fetch.jsp?location=\${encodeURIComponent(location)}&type=\${encodeURIComponent(type)}`)
         .then(response => response.text())
-        .then(html => {
-            content.innerHTML = html;
+        .then(html => {// 2. 서버로부터 HTML 응답 수신
+            content.innerHTML = html; // 3. DOM 조작: 받아온 카드 리스트 HTML을 특정 영역에 주입
         })
         .catch(error => {
             console.error('Error:', error);

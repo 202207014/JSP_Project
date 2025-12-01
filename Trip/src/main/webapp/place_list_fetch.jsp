@@ -64,7 +64,7 @@
             String pName = rs.getString("place_name");
             String pImg = rs.getString("place_img");
 %>
-            <!-- popup-card 클래스는 TripDetail.jsp의 CSS에 정의되어 있어야 합니다. -->
+            
             <div class="popup-card">
                 <div class="popup-img-wrapper">
                     <img src="<%= pImg %>" alt="<%= pName %>">

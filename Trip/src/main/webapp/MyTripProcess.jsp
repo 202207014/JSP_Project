@@ -42,7 +42,7 @@
                 message = "여행 제목과 지역을 입력해주세요.";
             } else {
                 if (image != null && image.trim().isEmpty()) image = "https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp";
-
+				//기본 이미지 url 설정
                 String sql = "INSERT INTO mytrip (user_id, title, location, image, memo) VALUES (?, ?, ?, ?, NULL)";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, userId);
